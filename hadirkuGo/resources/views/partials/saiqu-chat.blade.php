@@ -391,12 +391,11 @@
         <span></span><span></span><span></span>
     </div>
 
-    {{-- Quick Actions --}}
+    {{-- Quick Actions (loaded dynamically) --}}
     <div class="saiqu-quick-actions" id="saiqu-quick-actions">
-        <button class="saiqu-quick-btn" onclick="saiquQuick('Berapa poin saya?')">💰 Poin Saya</button>
-        <button class="saiqu-quick-btn" onclick="saiquQuick('Apa level saya?')">⭐ Level</button>
-        <button class="saiqu-quick-btn" onclick="saiquQuick('Info absensi saya')">📋 Absensi</button>
-        <button class="saiqu-quick-btn" onclick="saiquQuick('Fitur apa saja yang ada?')">🔍 Fitur</button>
+        <div class="text-center w-100" style="padding: 4px 0;">
+            <span class="small text-muted" style="font-size: 11px;">Memuat saran...</span>
+        </div>
     </div>
 
     {{-- Input --}}
@@ -413,11 +412,50 @@
 (function() {
     const SAIQU_CHAT_URL = '{{ route("saiqu.chat") }}';
     const SAIQU_CLEAR_URL = '{{ route("saiqu.clear") }}';
+    const SAIQU_SUGGESTIONS_URL = '{{ route("saiqu.suggestions") }}';
     const CSRF_TOKEN = '{{ csrf_token() }}';
 
     let saiquOpen = false;
     let saiquSending = false;
     let quickActionsVisible = true;
+    let suggestionsLoaded = false;
+
+    // Load suggestions on first open
+    function loadSuggestions() {
+        if (suggestionsLoaded) return;
+        suggestionsLoaded = true;
+
+        fetch(SAIQU_SUGGESTIONS_URL, {
+            headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.suggestions) {
+                renderSuggestions(data.suggestions);
+            }
+        })
+        .catch(() => {
+            // Fallback to default suggestions
+            renderSuggestions([
+                { icon: '💰', text: 'Berapa poin saya?' },
+                { icon: '⭐', text: 'Apa level saya?' },
+                { icon: '📋', text: 'Info absensi saya' },
+                { icon: '🔍', text: 'Fitur apa saja yang ada?' },
+            ]);
+        });
+    }
+
+    function renderSuggestions(suggestions) {
+        const qa = document.getElementById('saiqu-quick-actions');
+        qa.innerHTML = '';
+        suggestions.forEach(s => {
+            const btn = document.createElement('button');
+            btn.className = 'saiqu-quick-btn';
+            btn.textContent = s.icon + ' ' + s.text;
+            btn.onclick = () => saiquQuick(s.text);
+            qa.appendChild(btn);
+        });
+    }
 
     window.saiquToggle = function() {
         const chat = document.getElementById('saiqu-chat');
@@ -429,6 +467,7 @@
             setTimeout(() => { fab.style.display = 'none'; }, 300);
             chat.classList.add('active');
             setTimeout(() => { document.getElementById('saiqu-input').focus(); }, 400);
+            loadSuggestions();
         } else {
             chat.classList.remove('active');
             setTimeout(() => {
@@ -440,7 +479,11 @@
 
     window.saiquQuick = function(text) {
         document.getElementById('saiqu-input').value = text;
-        // Hide quick actions with animation
+        hideQuickActions();
+        saiquSend();
+    };
+
+    function hideQuickActions() {
         const qa = document.getElementById('saiqu-quick-actions');
         qa.style.transition = 'all 0.3s ease';
         qa.style.opacity = '0';
@@ -448,8 +491,17 @@
         qa.style.padding = '0 16px';
         qa.style.overflow = 'hidden';
         quickActionsVisible = false;
-        saiquSend();
-    };
+    }
+
+    function showQuickActions() {
+        const qa = document.getElementById('saiqu-quick-actions');
+        qa.style.transition = 'all 0.3s ease';
+        qa.style.opacity = '1';
+        qa.style.maxHeight = '80px';
+        qa.style.padding = '0 16px 10px';
+        qa.style.overflow = 'visible';
+        quickActionsVisible = true;
+    }
 
     window.saiquSend = function() {
         if (saiquSending) return;
@@ -458,16 +510,7 @@
         const message = input.value.trim();
         if (!message) return;
 
-        // Hide quick actions on first send
-        if (quickActionsVisible) {
-            const qa = document.getElementById('saiqu-quick-actions');
-            qa.style.transition = 'all 0.3s ease';
-            qa.style.opacity = '0';
-            qa.style.maxHeight = '0';
-            qa.style.padding = '0 16px';
-            qa.style.overflow = 'hidden';
-            quickActionsVisible = false;
-        }
+        if (quickActionsVisible) hideQuickActions();
 
         appendMessage('user', message);
         input.value = '';
@@ -516,13 +559,10 @@
             const container = document.getElementById('saiqu-messages');
             container.innerHTML = '';
             appendMessage('bot', 'Riwayat dihapus ✨ Ada yang bisa SaiQu bantu?');
-            // Show quick actions again
-            const qa = document.getElementById('saiqu-quick-actions');
-            qa.style.transition = 'all 0.3s ease';
-            qa.style.opacity = '1';
-            qa.style.maxHeight = '60px';
-            qa.style.padding = '0 16px 10px';
-            quickActionsVisible = true;
+            // Reload fresh suggestions
+            suggestionsLoaded = false;
+            loadSuggestions();
+            showQuickActions();
         });
     };
 

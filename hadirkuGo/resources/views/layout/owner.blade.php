@@ -188,9 +188,9 @@
     });
 </script>
 
-{{-- @auth
+@auth
     @include('partials.saiqu-chat')
-@endauth --}}
+@endauth
 
 </body>
 </html>

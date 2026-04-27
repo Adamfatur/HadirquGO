@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Cache\RateLimiting\Limit;
 use App\Services\SaiQu\QuestionValidator;
 use App\Services\SaiQu\KnowledgeService;
@@ -92,9 +93,26 @@ class SaiQuController extends Controller
             // Table may not exist yet
         }
 
+        // Invalidate suggestion cache so it refreshes
+        Cache::forget('saiqu:suggestions:' . Auth::id());
+
         return response()->json([
             'success' => true,
             'message' => 'Riwayat percakapan telah dihapus.',
+        ]);
+    }
+
+    /**
+     * Get personalized suggested questions for the current user.
+     */
+    public function suggestions()
+    {
+        $user = Auth::user();
+        $suggestions = KnowledgeService::getSuggestedQuestions($user);
+
+        return response()->json([
+            'success' => true,
+            'suggestions' => $suggestions,
         ]);
     }
 

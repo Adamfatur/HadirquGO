@@ -377,9 +377,9 @@
     })();
 </script>
 
-{{-- @auth
+@auth
     @include('partials.saiqu-chat')
-@endauth --}}
+@endauth
 
 @stack('scripts')
 </body>

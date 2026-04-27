@@ -667,4 +667,5 @@ Route::get('/terms-conditions', function () {
 Route::middleware('auth')->prefix('saiqu')->group(function () {
     Route::post('/chat', [\App\Http\Controllers\SaiQuController::class, 'chat'])->name('saiqu.chat');
     Route::post('/clear', [\App\Http\Controllers\SaiQuController::class, 'clearHistory'])->name('saiqu.clear');
+    Route::get('/suggestions', [\App\Http\Controllers\SaiQuController::class, 'suggestions'])->name('saiqu.suggestions');
 });

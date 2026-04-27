@@ -301,9 +301,9 @@
     }, 2000); // Durasi preloader 3 detik
 </script>
 
-{{-- @auth
+@auth
     @include('partials.saiqu-chat')
-@endauth --}}
+@endauth
 
 @stack('scripts')
 </body>

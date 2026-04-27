@@ -31,7 +31,7 @@ class QuestionValidator
         'journey', 'perjalanan',
         // Sistem umum
         'sistem', 'system', 'fitur', 'feature', 'aplikasi', 'app',
-        'hadirkugo', 'hadirku', 'saiqu',
+        'hadirqugo', 'hadirku', 'saiqu',
         'cara', 'bagaimana', 'how', 'apa', 'what',
         'data', 'user', 'pengguna', 'mahasiswa', 'student',
         'dosen', 'lecturer', 'owner', 'admin',

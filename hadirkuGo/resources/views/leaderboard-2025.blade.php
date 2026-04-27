@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard HadirkuGO 2025</title>
+    <title>Leaderboard HadirquGO 2025</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -218,7 +218,7 @@
 <body>
 
     <section class="hero-section">
-        <img src="https://drive.pastibisa.app/1731550618_67355d9aecbf5.png" alt="HadirkuGO Logo">
+        <img src="https://drive.pastibisa.app/1731550618_67355d9aecbf5.png" alt="HadirquGO Logo">
         <h1 class="hero-title">Hall of Fame 2025</h1>
         <p class="hero-subtitle">Apresiasi bagi pejuang kehadiran dengan dedikasi tertinggi.</p>
     </section>
@@ -271,7 +271,7 @@
         </div>
 
         <div class="footer">
-            <p>&copy; {{ date('Y') }} HadirkuGO. Data per {{ \Carbon\Carbon::now()->format('d F Y') }}.</p>
+            <p>&copy; {{ date('Y') }} HadirquGO. Data per {{ \Carbon\Carbon::now()->format('d F Y') }}.</p>
         </div>
     </div>
 

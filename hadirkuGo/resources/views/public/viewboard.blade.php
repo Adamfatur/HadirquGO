@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="HadirkuGO is a digital attendance platform using QR code technology for seamless attendance management.">
-    <meta name="keywords" content="HadirkuGO, Digital Attendance, QR Code, Attendance Management, SSO, Platform Kehadiran">
-    <meta name="author" content="HadirkuGO Team">
-    <meta property="og:title" content="HadirkuGO - Digital Attendance Platform with QR Code">
-    <meta property="og:description" content="HadirkuGO is a platform for managing attendance using QR code technology, making attendance processes simpler and more efficient.">
+    <meta name="description" content="HadirquGO is a digital attendance platform using QR code technology for seamless attendance management.">
+    <meta name="keywords" content="HadirquGO, Digital Attendance, QR Code, Attendance Management, SSO, Platform Kehadiran">
+    <meta name="author" content="HadirquGO Team">
+    <meta property="og:title" content="HadirquGO - Digital Attendance Platform with QR Code">
+    <meta property="og:description" content="HadirquGO is a platform for managing attendance using QR code technology, making attendance processes simpler and more efficient.">
     <meta property="og:image" content="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
-    <title>Leaderboard | HadirkuGO</title>
+    <title>Leaderboard | HadirquGO</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
@@ -166,7 +166,7 @@
 <body>
 <div class="container">
     <h1 class="leaderboard-title">
-        <i class="fas fa-trophy"></i> Leaderboard | HadirkuGO
+        <i class="fas fa-trophy"></i> Leaderboard | HadirquGO
     </h1>
 
     <div class="table-responsive">
@@ -218,8 +218,8 @@
 
 <footer>
     
-    <p>Leaderboard updated in real-time by <strong>HadirkuGO</strong>.</p>
-    <p>&copy; {{ date('Y') }} HadirkuGO Team. All rights reserved.</p>
+    <p>Leaderboard updated in real-time by <strong>HadirquGO</strong>.</p>
+    <p>&copy; {{ date('Y') }} HadirquGO Team. All rights reserved.</p>
 </footer>
 
 <!-- Bootstrap JS -->

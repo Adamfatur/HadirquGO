@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Rekapan absensi tim secara publik untuk HadirkuGO.">
-    <meta name="keywords" content="HadirkuGO, Absensi, Rekap, Tim, QR Code">
-    <meta name="author" content="HadirkuGO">
-    <meta property="og:title" content="Rekapan Absensi {{ $team->name }} | HadirkuGO">
+    <meta name="description" content="Rekapan absensi tim secara publik untuk HadirquGO.">
+    <meta name="keywords" content="HadirquGO, Absensi, Rekap, Tim, QR Code">
+    <meta name="author" content="HadirquGO">
+    <meta property="og:title" content="Rekapan Absensi {{ $team->name }} | HadirquGO">
     <meta property="og:description" content="Pantau kehadiran tim {{ $team->name }} secara real-time.">
     <meta property="og:image" content="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
-    <title>Absensi {{ $team->name }} | HadirkuGO</title>
+    <title>Absensi {{ $team->name }} | HadirquGO</title>
     
     <!-- Favicon -->
     <link rel="icon" href="https://drive.pastibisa.app/1731549860_67355aa46d47e.jpg" type="image/x-icon">
@@ -284,7 +284,7 @@
 <header class="header-bg">
     <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
         <a href="{{ url('/') }}" class="brand-logo">
-            <img src="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png" alt="HadirkuGO Logo">
+            <img src="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png" alt="HadirquGO Logo">
         </a>
         <div class="nav nav-pills-custom">
             <a class="nav-link {{ $range === 'today' ? 'active' : '' }}" href="{{ route('public.team.attendance.recap', ['team_unique_id' => $team->team_unique_id, 'range' => 'today']) }}">
@@ -488,7 +488,7 @@
 <footer class="bg-white border-top py-4 mt-auto">
     <div class="container text-center">
         <p class="mb-0 text-muted small">
-            &copy; {{ date('Y') }} <strong>HadirkuGO</strong>. All rights reserved. <br>
+            &copy; {{ date('Y') }} <strong>HadirquGO</strong>. All rights reserved. <br>
             <span class="text-gray-400">Timezone: Asia/Jakarta (WIB)</span>
         </p>
     </div>

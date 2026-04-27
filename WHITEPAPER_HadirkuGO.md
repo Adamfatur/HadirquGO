@@ -1,14 +1,14 @@
-# WHITE PAPER SISTEM HadirkuGO
+# WHITE PAPER SISTEM HadirquGO
 
 ## 1. Executive Summary
 
-HadirkuGO adalah platform kehadiran digital berbasis QR Code yang dirancang untuk mentransformasi cara organisasi, institusi pendidikan, dan bisnis mengelola kehadiran anggotanya. Sistem ini menggabungkan teknologi QR Code dinamis dengan elemen gamifikasi komprehensif untuk menciptakan pengalaman kehadiran yang tidak hanya akurat, tetapi juga memotivasi.
+HadirquGO adalah platform kehadiran digital berbasis QR Code yang dirancang untuk mentransformasi cara organisasi, institusi pendidikan, dan bisnis mengelola kehadiran anggotanya. Sistem ini menggabungkan teknologi QR Code dinamis dengan elemen gamifikasi komprehensif untuk menciptakan pengalaman kehadiran yang tidak hanya akurat, tetapi juga memotivasi.
 
-Masalah utama yang diselesaikan oleh HadirkuGO adalah rendahnya engagement dan akurasi dalam sistem kehadiran konvensional. Sistem absensi tradisional — baik manual maupun digital — cenderung monoton, mudah dimanipulasi, dan tidak memberikan insentif bagi pengguna untuk hadir secara konsisten.
+Masalah utama yang diselesaikan oleh HadirquGO adalah rendahnya engagement dan akurasi dalam sistem kehadiran konvensional. Sistem absensi tradisional — baik manual maupun digital — cenderung monoton, mudah dimanipulasi, dan tidak memberikan insentif bagi pengguna untuk hadir secara konsisten.
 
-HadirkuGO menawarkan solusi melalui pendekatan gamifikasi yang terintegrasi: setiap aktivitas kehadiran menghasilkan poin, poin menentukan level pengguna, dan performa kehadiran ditampilkan dalam leaderboard kompetitif. Sistem ini juga dilengkapi dengan fitur Challenge antar pengguna, Achievement badges, Quiz interaktif, Reward system, serta SaiQu — asisten AI berbasis Google Gemini yang membantu pengguna memahami data kehadiran mereka secara real-time.
+HadirquGO menawarkan solusi melalui pendekatan gamifikasi yang terintegrasi: setiap aktivitas kehadiran menghasilkan poin, poin menentukan level pengguna, dan performa kehadiran ditampilkan dalam leaderboard kompetitif. Sistem ini juga dilengkapi dengan fitur Challenge antar pengguna, Achievement badges, Quiz interaktif, Reward system, serta SaiQu — asisten AI berbasis Google Gemini yang membantu pengguna memahami data kehadiran mereka secara real-time.
 
-Keunggulan utama HadirkuGO:
+Keunggulan utama HadirquGO:
 - QR Code dinamis dengan masa berlaku 10 detik untuk mencegah manipulasi
 - Sistem gamifikasi multi-layer (Poin, Level, Leaderboard, Achievement, Reward)
 - AI Agent (SaiQu) terintegrasi untuk analisis data personal
@@ -81,7 +81,7 @@ Solusi kehadiran digital yang ada di pasaran umumnya:
 
 ### 4.1 Gambaran Umum
 
-HadirkuGO adalah aplikasi web full-stack yang dibangun di atas framework Laravel 8. Sistem ini mengadopsi arsitektur monolitik dengan pola MVC (Model-View-Controller) dan dilengkapi dengan scheduled commands untuk pemrosesan data berkala. Platform ini mendukung autentikasi via Google OAuth dan menyediakan dashboard yang berbeda untuk setiap role pengguna.
+HadirquGO adalah aplikasi web full-stack yang dibangun di atas framework Laravel 8. Sistem ini mengadopsi arsitektur monolitik dengan pola MVC (Model-View-Controller) dan dilengkapi dengan scheduled commands untuk pemrosesan data berkala. Platform ini mendukung autentikasi via Google OAuth dan menyediakan dashboard yang berbeda untuk setiap role pengguna.
 
 ### 4.2 Fitur Utama
 
@@ -140,7 +140,7 @@ HadirkuGO adalah aplikasi web full-stack yang dibangun di atas framework Laravel
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    ALUR KEHADIRAN HadirkuGO                     │
+│                    ALUR KEHADIRAN HadirquGO                     │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  [Student/Lecturer]          [QR Scanner di Lokasi]             │

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'HadirkuGO')</title>
+    <title>@yield('title', 'HadirquGO')</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -94,7 +94,7 @@
 <div class="d-flex">
     <!-- Sidebar -->
     <nav class="sidebar d-flex flex-column p-3">
-        <h2 class="mb-4">Panel HadirkuGO</h2>
+        <h2 class="mb-4">Panel HadirquGO</h2>
 
         <ul class="nav flex-column">
             <li class="nav-item mb-2">
@@ -138,7 +138,7 @@
         <header class="mb-3">
             <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-top: -1rem;">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">@yield('title', 'Panel HadirkuGO')</a>
+                    <a class="navbar-brand" href="#">@yield('title', 'Panel HadirquGO')</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>

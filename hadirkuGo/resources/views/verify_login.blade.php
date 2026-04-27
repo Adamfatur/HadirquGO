@@ -103,7 +103,7 @@
 
         <!-- Footer -->
         <div class="footer-text">
-            If this wasn't you, <a href="mailto:mail.hadirkugo@alphabetincubator.id">contact us</a> immediately.
+            If this wasn't you, <a href="mailto:mail.hadirqugo@alphabetincubator.id">contact us</a> immediately.
         </div>
     </div>
 </div>

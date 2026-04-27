@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms & Conditions - HadirkuGO</title>
+    <title>Terms & Conditions - HadirquGO</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -22,7 +22,7 @@
             <h1 class="mb-4">Terms & Conditions</h1>
             <p>Last updated: {{ date('F d, Y') }}</p>
 
-            <p>By using HadirkuGO, you agree to comply with the following terms. These terms are designed to ensure a fair and secure experience for both users and administrators.</p>
+            <p>By using HadirquGO, you agree to comply with the following terms. These terms are designed to ensure a fair and secure experience for both users and administrators.</p>
 
             <h2>1. User Responsibility</h2>
             <p>Users must use their own accounts to scan QR codes. Attempting to scan for others ("buddy punching") or manipulating the system tokens is strictly prohibited and may lead to account suspension.</p>
@@ -31,7 +31,7 @@
             <p>Points and levels are awarded for genuine attendance. Any attempt to exploit system vulnerabilities to gain points unfairly will result in a reset of the user's progress.</p>
 
             <h2>3. Service Availability</h2>
-            <p>While we strive for 100% uptime, HadirkuGO is provided "as is." We are not liable for any temporary unavailability of the service during critical attendance windows.</p>
+            <p>While we strive for 100% uptime, HadirquGO is provided "as is." We are not liable for any temporary unavailability of the service during critical attendance windows.</p>
 
             <h2>4. Administrative Rights</h2>
             <p>Administrators (Lecturers and Team Owners) have the right to verify, edit, or invalidate attendance records if evidence of non-compliance is found.</p>

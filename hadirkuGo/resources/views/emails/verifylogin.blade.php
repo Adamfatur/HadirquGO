@@ -65,7 +65,7 @@
                         </a>
 
                         <p style="font-size: 16px; line-height: 1.6; color: #666; margin-top: 30px;">
-                            If you did not attempt to log in from this device, please contact us immediately at <a href="mailto:mail.hadirkugo@alphabetincubator.id" style="color: #00c6ff; text-decoration: none;">mail.hadirkugo@alphabetincubator.id</a>.
+                            If you did not attempt to log in from this device, please contact us immediately at <a href="mailto:mail.hadirqugo@alphabetincubator.id" style="color: #00c6ff; text-decoration: none;">mail.hadirqugo@alphabetincubator.id</a>.
                         </p>
                     </td>
                 </tr>

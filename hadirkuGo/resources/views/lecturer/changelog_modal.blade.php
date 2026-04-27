@@ -5,7 +5,7 @@
             <div class="modal-header border-0" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 18px 25px;">
                 <h5 class="modal-title fw-bold d-flex align-items-center" id="changelogModalLabel">
                     <i class="fas fa-rocket me-2"></i> 
-                    <span>HadirkuGO v2.0 — Changelog</span>
+                    <span>HadirquGO v2.0 — Changelog</span>
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -39,7 +39,7 @@
                                 <span style="font-size: 1.5rem;" class="me-2">🎉</span>
                                 <div>
                                     <div class="fw-bold text-primary">Update Besar dari v1.5!</div>
-                                    <div class="small text-muted">Berikut semua perubahan penting di HadirkuGO v2.0</div>
+                                    <div class="small text-muted">Berikut semua perubahan penting di HadirquGO v2.0</div>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 <!-- SaiQu AI -->
                                 <li class="mb-3">
                                     <div class="fw-bold text-dark">🤖 SaiQu — AI Agent Cerdas</div>
-                                    <div class="small text-muted">Asisten AI berbasis Gemini yang menjawab pertanyaan seputar sistem HadirkuGO secara real-time.</div>
+                                    <div class="small text-muted">Asisten AI berbasis Gemini yang menjawab pertanyaan seputar sistem HadirquGO secara real-time.</div>
                                     <ul class="small text-muted ps-3 mt-1">
                                         <li>Floating chat widget tersedia di semua halaman</li>
                                         <li>Mengenal data personal: poin, level, ranking, tim, absensi kamu</li>
@@ -358,7 +358,7 @@
                                 <span style="font-size: 1.5rem;" class="me-2">🎉</span>
                                 <div>
                                     <div class="fw-bold text-primary">Major Update from v1.5!</div>
-                                    <div class="small text-muted">Here's everything new in HadirkuGO v2.0</div>
+                                    <div class="small text-muted">Here's everything new in HadirquGO v2.0</div>
                                 </div>
                             </div>
                         </div>
@@ -373,7 +373,7 @@
                                 <!-- SaiQu AI -->
                                 <li class="mb-3">
                                     <div class="fw-bold text-dark">🤖 SaiQu — Smart AI Agent</div>
-                                    <div class="small text-muted">Gemini-powered AI assistant that answers questions about the HadirkuGO system in real-time.</div>
+                                    <div class="small text-muted">Gemini-powered AI assistant that answers questions about the HadirquGO system in real-time.</div>
                                     <ul class="small text-muted ps-3 mt-1">
                                         <li>Floating chat widget available on all pages</li>
                                         <li>Knows your personal data: points, level, ranking, teams, attendance</li>

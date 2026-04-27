@@ -30,7 +30,7 @@
         <!-- Performance Analytics & Notifications -->
         @include('dashboard.partials.performance_insights')
 
-        <!-- Modals & "What is HadirkuGO" -->
+        <!-- Modals & "What is HadirquGO" -->
         @include('dashboard.partials.modals')
 
     </div> <!-- /.container -->
@@ -39,7 +39,7 @@
     <div class="text-center py-3" style="background-color: #1e3a8a; color: white; border-radius: 0 0 15px 15px;">
         <p class="mb-0 small">
             <a href="#" data-bs-toggle="modal" data-bs-target="#changelogModal" class="text-white text-decoration-none">
-                HadirkuGO Version 2.0 &copy; {{ date('Y') }}. All rights reserved.
+                HadirquGO Version 2.0 &copy; {{ date('Y') }}. All rights reserved.
             </a>
         </p>
     </div>

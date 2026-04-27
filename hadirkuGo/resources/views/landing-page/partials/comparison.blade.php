@@ -2,7 +2,7 @@
     <section id="comparison" class="comparison">
         <div class="container">
             <div class="section-header" data-aos="fade-up">
-                <h2 class="text-white">Why HadirkuGO?</h2>
+                <h2 class="text-white">Why HadirquGO?</h2>
                 <p class="text-white-50">Compare the difference between traditional attendance methods and our modern digital solution.</p>
             </div>
             <div class="row align-items-center g-4 mt-4">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-lg-6" data-aos="fade-left">
                     <div class="comparison-box box-modern active">
-                        <h3 class="text-white">HadirkuGO Method ✨</h3>
+                        <h3 class="text-white">HadirquGO Method ✨</h3>
                         <ul class="comparison-list text-white">
                             <li><i class="fas fa-check-circle"></i> <span>Fast and practical QR scanning process</span></li>
                             <li><i class="fas fa-check-circle"></i> <span>No physical queues or waiting times</span></li>

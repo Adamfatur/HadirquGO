@@ -2,7 +2,7 @@
     <section id="features" class="features">
         <div class="container">
             <div class="section-header" data-aos="fade-up">
-                <h2>HadirkuGO Key Features</h2>
+                <h2>HadirquGO Key Features</h2>
                 <p>We provide an attendance solution that not only records presence but also boosts productivity and user engagement.</p>
             </div>
             <div class="row g-4">

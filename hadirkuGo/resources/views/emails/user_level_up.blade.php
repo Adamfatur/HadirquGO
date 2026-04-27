@@ -64,7 +64,7 @@
                         </table>
 
                         <p style="font-size: 16px; line-height: 1.6; color: #666;">
-                            If you have any questions, please email us at <a href="mailto:mail.hadirkugo@alphabetincubator.id" style="color: #00c6ff; text-decoration: none;">mail.hadirkugo@alphabetincubator.id</a>, and do not reply to this message as it is an automated email.
+                            If you have any questions, please email us at <a href="mailto:mail.hadirqugo@alphabetincubator.id" style="color: #00c6ff; text-decoration: none;">mail.hadirqugo@alphabetincubator.id</a>, and do not reply to this message as it is an automated email.
                         </p>
                     </td>
                 </tr>

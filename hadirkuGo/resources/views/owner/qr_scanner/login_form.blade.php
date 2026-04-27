@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Scanner Login - HadirkuGO</title>
+    <title>QR Scanner Login - HadirquGO</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -148,7 +148,7 @@
 <div class="login-container">
     <!-- Header -->
     <div class="header">
-        <i class="fas fa-qrcode"></i> HadirkuGO
+        <i class="fas fa-qrcode"></i> HadirquGO
     </div>
 
     <!-- Card Login -->
@@ -178,7 +178,7 @@
             </button>
         </form>
         <div class="footer-text">
-            <p>&copy; {{ date('Y') }} HadirkuGO. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} HadirquGO. All rights reserved.</p>
         </div>
     </div>
 </div>

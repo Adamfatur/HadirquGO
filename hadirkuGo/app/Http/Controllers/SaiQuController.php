@@ -43,7 +43,7 @@ class SaiQuController extends Controller
         if (!QuestionValidator::isSystemRelated($message)) {
             return response()->json([
                 'success' => true,
-                'answer' => 'Wah, itu di luar jangkauan aku nih 😄 Aku cuma bisa bantu soal HadirkuGO ya! Coba tanya tentang poin, absensi, level, atau fitur lainnya~',
+                'answer' => 'Wah, itu di luar jangkauan aku nih 😄 Aku cuma bisa bantu soal HadirquGO ya! Coba tanya tentang poin, absensi, level, atau fitur lainnya~',
             ]);
         }
 

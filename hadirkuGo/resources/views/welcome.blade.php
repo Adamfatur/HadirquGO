@@ -4,23 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <!-- SEO Meta Tags -->
-    <meta name="description" content="HadirkuGO is a state-of-the-art digital attendance platform based on QR code technology, transforming daily attendance into a seamless, gamified, and rewarding experience." />
-    <meta name="keywords" content="HadirkuGO, Digital Attendance, QR Code, Attendance Management, Gamification, Employee Tracking, Student Attendance" />
+    <meta name="description" content="HadirquGO is a state-of-the-art digital attendance platform based on QR code technology, transforming daily attendance into a seamless, gamified, and rewarding experience." />
+    <meta name="keywords" content="HadirquGO, Digital Attendance, QR Code, Attendance Management, Gamification, Employee Tracking, Student Attendance" />
     <meta name="author" content="Alphabet Incubator" />
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ url()->current() }}" />
-    <meta property="og:title" content="HadirkuGO - Next-Gen Digital Attendance Platform" />
+    <meta property="og:title" content="HadirquGO - Next-Gen Digital Attendance Platform" />
     <meta property="og:description" content="Revolutionize your attendance process with lightning-fast QR scanning, real-time analytics, and gamified rewards." />
     <meta property="og:image" content="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png" />
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="{{ url()->current() }}" />
-    <meta property="twitter:title" content="HadirkuGO - Next-Gen Digital Attendance Platform" />
+    <meta property="twitter:title" content="HadirquGO - Next-Gen Digital Attendance Platform" />
     <meta property="twitter:description" content="Revolutionize your attendance process with lightning-fast QR scanning, real-time analytics, and gamified rewards." />
     <meta property="twitter:image" content="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png" />
 
-    <title>HadirkuGO - Modern Digital Attendance Platform</title>
+    <title>HadirquGO - Modern Digital Attendance Platform</title>
 
     <link rel="icon" href="https://drive.pastibisa.app/1731549860_67355aa46d47e.jpg" type="image/x-icon" />
     <link rel="apple-touch-icon" href="https://drive.pastibisa.app/1737344039_678dc427e611b.png">

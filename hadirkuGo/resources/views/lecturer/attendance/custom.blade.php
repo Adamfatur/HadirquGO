@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Custom {{ __('Attendance Report for') }} {{ $team->name }} | HadirkuGO</title>
+    <title>Custom {{ __('Attendance Report for') }} {{ $team->name }} | HadirquGO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="https://drive.pastibisa.app/1737344039_678dc427e611b.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">

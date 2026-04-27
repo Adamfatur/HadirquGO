@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HadirkuGO Check-in Success</title>
+    <title>HadirquGO Check-in Success</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: 'Georgia', serif; background-color: #f8f9fa; color: #2A2E35;">
 
@@ -20,7 +20,7 @@
                         <!-- Logo Container -->
                         <div style="display: inline-block; padding: 10px; border: 2px solid #0A2342; border-radius: 8px; background: white; line-height: 0;">
                             <img src="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png"
-                                 alt="HadirkuGO Logo"
+                                 alt="HadirquGO Logo"
                                  style="width: 280px; height: auto; display: block; margin: 0 auto;"
                                  width="280"
                                  height="48">
@@ -94,9 +94,9 @@
                         <p style="font-size: 16px; line-height: 1.6; color: #6C757D; margin-top: 24px;">
                             Collect more points to unlock exclusive rewards.<br>
                             Need assistance? Contact our team:
-                            <a href="mailto:mail.hadirkugo@alphabetincubator.id"
+                            <a href="mailto:mail.hadirqugo@alphabetincubator.id"
                                style="color: #C5A047; text-decoration: none; border-bottom: 1px dotted #C5A047;">
-                                mail.hadirkugo@alphabetincubator.id
+                                mail.hadirqugo@alphabetincubator.id
                             </a>
                         </p>
                     </td>
@@ -107,8 +107,8 @@
                     <td style="background-color: #0A2342; padding: 24px; text-align: center;">
                         <div style="border-top: 1px solid rgba(197, 160, 71, 0.2); margin-bottom: 16px;"></div>
                         <p style="margin: 8px 0; color: #C5A047; font-size: 14px;">
-                            Powered by HadirkuGO<br>
-                            <span style="color: rgba(255, 255, 255, 0.7); font-size: 12px;">© {{ date('Y') }} HadirkuGO. All Rights Reserved.</span>
+                            Powered by HadirquGO<br>
+                            <span style="color: rgba(255, 255, 255, 0.7); font-size: 12px;">© {{ date('Y') }} HadirquGO. All Rights Reserved.</span>
                         </p>
                     </td>
                 </tr>

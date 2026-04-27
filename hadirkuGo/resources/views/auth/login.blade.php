@@ -9,7 +9,7 @@
     <!-- Meta Keywords -->
     <meta name="keywords" content="HadirkuGo, attendance management, login, productivity, modern system, Raharja University">
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://hadirkugo.raharja.ac.id/">
+    <link rel="canonical" href="https://hadirqugo.raharja.ac.id/">
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://drive.pastibisa.app/1737344039_678dc427e611b.png">
     <!-- Web App Manifest -->

@@ -1,6 +1,6 @@
-# Changelog - HadirkuGO
+# Changelog - HadirquGO
 
-Semua perubahan penting pada proyek HadirkuGO akan didokumentasikan di file ini.
+Semua perubahan penting pada proyek HadirquGO akan didokumentasikan di file ini.
 
 Format berdasarkan [Keep a Changelog](https://keepachangelog.com/id-ID/1.0.0/).
 
@@ -25,7 +25,7 @@ Format berdasarkan [Keep a Changelog](https://keepachangelog.com/id-ID/1.0.0/).
 ## [v1.5] - 2026-04-27
 
 ### Catatan
-Ini adalah baseline commit pertama ke Git. Semua file yang ada saat ini merepresentasikan kondisi HadirkuGO versi 1.5.
+Ini adalah baseline commit pertama ke Git. Semua file yang ada saat ini merepresentasikan kondisi HadirquGO versi 1.5.
 
 ### Fitur yang Sudah Ada (Baseline)
 - Sistem Attendance (QR Code, GPS-based)

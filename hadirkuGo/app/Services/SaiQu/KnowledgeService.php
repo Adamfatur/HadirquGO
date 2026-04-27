@@ -202,7 +202,7 @@ class KnowledgeService
             }
 
             // General useful questions
-            $suggestions[] = ['icon' => '🔍', 'text' => 'Fitur apa saja yang ada di HadirkuGO?'];
+            $suggestions[] = ['icon' => '🔍', 'text' => 'Fitur apa saja yang ada di HadirquGO?'];
             $suggestions[] = ['icon' => '🎯', 'text' => 'Siapa top 5 poin tertinggi?'];
 
             // Return max 6 suggestions, shuffled for variety but keep first 3 personal
@@ -246,7 +246,7 @@ class KnowledgeService
     protected static function getSystemInfo(): string
     {
         return Cache::remember('saiqu:system_info', self::ttl() * 24, function () {
-            return "SYSTEM: HadirkuGO v2.0 — platform kehadiran digital berbasis QR Code. "
+            return "SYSTEM: HadirquGO v2.0 — platform kehadiran digital berbasis QR Code. "
                  . "Fitur: Absensi QR, Tim, Poin Tesla, Level, Leaderboard (6 kategori, update per jam), "
                  . "Achievement, Quiz, Super Quiz, Reward (spin/gacha), Challenge, Daily Checkin, "
                  . "Feedback, SaiQu AI, Multi-bahasa (ID/EN), Journey Publik.";
@@ -662,7 +662,7 @@ class KnowledgeService
             'absen', 'absensi', 'attendance', 'checkin', 'checkout',
             'check', 'tim', 'team', 'achievement', 'quiz', 'reward',
             'challenge', 'leaderboard', 'dashboard', 'statistik',
-            'kalender', 'feedback', 'hadirkugo', 'profil', 'profile',
+            'kalender', 'feedback', 'hadirqugo', 'profil', 'profile',
         ];
 
         $words = preg_split('/\s+/', mb_strtolower(trim($query)));
@@ -1022,7 +1022,7 @@ class KnowledgeService
     protected static function getFeatureGuide(): string
     {
         return Cache::remember('saiqu:feature_guide', self::ttl() * 24, function () {
-            return "FITUR HADIRKUGO v2.0:\n"
+            return "FITUR HADIRQUGO v2.0:\n"
                  . "1. Dashboard — Ringkasan aktivitas, EXP, level progress, live activity, highlights, top global podium, rank rivalry\n"
                  . "2. Absensi QR — Check-in/out via QR Code, GPS-based, animasi smooth + quotes motivasi\n"
                  . "3. Tim — Buat/gabung tim, kelola anggota, transfer leadership, team leaderboard\n"

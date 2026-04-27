@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Generate HadirkuGO Whitepaper DOCX with professional formatting."""
+"""Generate HadirquGO Whitepaper DOCX with professional formatting."""
 
 from docx import Document
 from docx.shared import Pt, Inches, Cm, RGBColor
@@ -152,7 +152,7 @@ run.bold = True
 
 p = doc.add_paragraph()
 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = p.add_run('HadirkuGO')
+run = p.add_run('HadirquGO')
 run.font.size = Pt(36)
 run.font.color.rgb = RGBColor(0x1A, 0x3C, 0x6E)
 run.font.name = 'Calibri'
@@ -223,21 +223,21 @@ doc.add_heading('1. Executive Summary', level=1)
 add_horizontal_line(doc)
 
 doc.add_paragraph(
-    'HadirkuGO adalah platform kehadiran digital berbasis QR Code yang dirancang untuk '
+    'HadirquGO adalah platform kehadiran digital berbasis QR Code yang dirancang untuk '
     'mentransformasi cara organisasi, institusi pendidikan, dan bisnis mengelola kehadiran '
     'anggotanya. Sistem ini menggabungkan teknologi QR Code dinamis dengan elemen gamifikasi '
     'komprehensif untuk menciptakan pengalaman kehadiran yang tidak hanya akurat, tetapi juga memotivasi.'
 )
 
 doc.add_paragraph(
-    'Masalah utama yang diselesaikan oleh HadirkuGO adalah rendahnya engagement dan akurasi '
+    'Masalah utama yang diselesaikan oleh HadirquGO adalah rendahnya engagement dan akurasi '
     'dalam sistem kehadiran konvensional. Sistem absensi tradisional \u2014 baik manual maupun '
     'digital \u2014 cenderung monoton, mudah dimanipulasi, dan tidak memberikan insentif bagi '
     'pengguna untuk hadir secara konsisten.'
 )
 
 doc.add_paragraph(
-    'HadirkuGO menawarkan solusi melalui pendekatan gamifikasi terintegrasi: setiap aktivitas '
+    'HadirquGO menawarkan solusi melalui pendekatan gamifikasi terintegrasi: setiap aktivitas '
     'kehadiran menghasilkan poin, poin menentukan level pengguna, dan performa kehadiran '
     'ditampilkan dalam leaderboard kompetitif. Sistem ini juga dilengkapi dengan fitur Challenge '
     'antar pengguna, Achievement badges, Quiz interaktif, Reward system, serta SaiQu \u2014 '
@@ -371,7 +371,7 @@ add_horizontal_line(doc)
 
 doc.add_heading('4.1 Gambaran Umum', level=2)
 doc.add_paragraph(
-    'HadirkuGO adalah aplikasi web full-stack yang dibangun di atas framework Laravel 8 (PHP). '
+    'HadirquGO adalah aplikasi web full-stack yang dibangun di atas framework Laravel 8 (PHP). '
     'Sistem ini mengadopsi arsitektur monolitik dengan pola MVC (Model-View-Controller) dan '
     'dilengkapi dengan 16 scheduled commands untuk pemrosesan data berkala. Platform ini mendukung '
     'autentikasi via Google OAuth 2.0 melalui Laravel Socialite dan menyediakan dashboard yang '
@@ -516,7 +516,7 @@ doc.add_paragraph(
 ).paragraph_format.left_indent = Inches(0.75)
 add_bullet(doc, '', bold_prefix='QuestionValidator: ')
 doc.add_paragraph(
-    'Memfilter pertanyaan agar hanya menjawab topik terkait sistem HadirkuGO. '
+    'Memfilter pertanyaan agar hanya menjawab topik terkait sistem HadirquGO. '
     'Pertanyaan di luar scope ditolak dengan respons yang ramah.'
 ).paragraph_format.left_indent = Inches(0.75)
 
@@ -545,7 +545,7 @@ add_horizontal_line(doc)
 
 doc.add_heading('5.1 Arsitektur Sistem', level=2)
 doc.add_paragraph(
-    'HadirkuGO mengadopsi arsitektur monolitik berbasis Laravel 8 dengan pola MVC. '
+    'HadirquGO mengadopsi arsitektur monolitik berbasis Laravel 8 dengan pola MVC. '
     'Keputusan ini diambil untuk menyederhanakan deployment, mengurangi overhead komunikasi '
     'antar-service, dan mempercepat iterasi pengembangan. Meskipun monolitik, sistem ini '
     'terstruktur dengan baik melalui pemisahan concern yang jelas:'
@@ -654,7 +654,7 @@ doc.add_paragraph(
 p = doc.add_paragraph()
 run = p.add_run(
     '1. User mengirim pertanyaan via AJAX POST /saiqu/chat\n'
-    '2. QuestionValidator memfilter pertanyaan (hanya topik HadirkuGO)\n'
+    '2. QuestionValidator memfilter pertanyaan (hanya topik HadirquGO)\n'
     '3. KnowledgeService melakukan keyword matching terhadap 12 topik\n'
     '4. Data real-time di-query dari database berdasarkan topik yang cocok\n'
     '5. Konteks data (max 2000 karakter) digabung dengan pertanyaan user\n'
@@ -700,7 +700,7 @@ doc.add_heading('6.2 Inovasi Utama', level=2)
 
 doc.add_heading('Gamifikasi Berlapis (Multi-Layer Gamification)', level=3)
 doc.add_paragraph(
-    'HadirkuGO tidak hanya menerapkan satu elemen gamifikasi, tetapi mengintegrasikan '
+    'HadirquGO tidak hanya menerapkan satu elemen gamifikasi, tetapi mengintegrasikan '
     'multiple layers yang saling memperkuat:'
 )
 add_bullet(doc, '', bold_prefix='Layer 1 \u2014 Immediate Reward: ')
@@ -725,7 +725,7 @@ doc.add_paragraph(
 doc.add_heading('6.3 Keunggulan Dibanding Sistem Lain', level=2)
 
 add_table(doc,
-    ['Aspek', 'Sistem Konvensional', 'HadirkuGO'],
+    ['Aspek', 'Sistem Konvensional', 'HadirquGO'],
     [
         ['Metode Absensi', 'Fingerprint / Kartu RFID / Manual', 'QR Code dinamis (10 detik TTL)'],
         ['Motivasi', 'Tidak ada', '5-layer gamifikasi terintegrasi'],
@@ -889,7 +889,7 @@ add_bullet(doc, 'Validasi ganda: is_active check DAN expires_at check pada setia
 
 doc.add_heading('8.3 Keamanan AI (SaiQu)', level=2)
 add_bullet(doc, 'Rate limiting: 50 pesan/hari dan 10 pesan/menit per user untuk mencegah abuse')
-add_bullet(doc, 'Question validation: hanya menjawab pertanyaan terkait sistem HadirkuGO')
+add_bullet(doc, 'Question validation: hanya menjawab pertanyaan terkait sistem HadirquGO')
 add_bullet(doc, 'Data sensitif dilindungi: SaiQu tidak pernah mengekspos password, token, atau email pribadi')
 add_bullet(doc, 'Gemini safety filters: respons yang melanggar safety policy otomatis diblokir')
 add_bullet(doc, 'Context trimming: konteks data dibatasi 2000 karakter untuk mencegah data leakage')
@@ -968,7 +968,7 @@ p = doc.add_paragraph()
 run = p.add_run(
     'User:  "Berapa total poin aku bulan ini?"\n\n'
     'SaiQu: [Proses Internal]\n'
-    '  1. QuestionValidator: topik valid (poin \u2192 sistem HadirkuGO)\n'
+    '  1. QuestionValidator: topik valid (poin \u2192 sistem HadirquGO)\n'
     '  2. KnowledgeService: keyword "poin" matched\n'
     '     \u2192 Query UserPointSummary untuk user ini\n'
     '     \u2192 Query Top 5 poin tertinggi untuk perbandingan\n'
@@ -1020,7 +1020,7 @@ add_table(doc,
 
 doc.add_heading('10.2 Skalabilitas', level=2)
 doc.add_paragraph(
-    'Arsitektur HadirkuGO dirancang dengan mempertimbangkan skalabilitas:'
+    'Arsitektur HadirquGO dirancang dengan mempertimbangkan skalabilitas:'
 )
 add_bullet(doc, '', bold_prefix='Leaderboard Limit: ')
 doc.add_paragraph('Setiap kategori leaderboard dibatasi top 50 entries untuk menjaga performa query').paragraph_format.left_indent = Inches(0.75)
@@ -1091,7 +1091,7 @@ doc.add_heading('12. Conclusion', level=1)
 add_horizontal_line(doc)
 
 doc.add_paragraph(
-    'HadirkuGO merepresentasikan evolusi signifikan dalam domain sistem kehadiran digital. '
+    'HadirquGO merepresentasikan evolusi signifikan dalam domain sistem kehadiran digital. '
     'Dengan menggabungkan teknologi QR Code dinamis, gamifikasi multi-layer, dan kecerdasan '
     'buatan berbasis Google Gemini, platform ini berhasil mentransformasi aktivitas kehadiran '
     'yang tradisionalnya monoton menjadi pengalaman yang engaging, kompetitif, dan bermakna.'
@@ -1107,7 +1107,7 @@ doc.add_paragraph(
 )
 
 doc.add_paragraph(
-    'Inovasi utama HadirkuGO terletak pada pendekatan gamifikasi berlapis yang menciptakan '
+    'Inovasi utama HadirquGO terletak pada pendekatan gamifikasi berlapis yang menciptakan '
     'multiple feedback loops: poin langsung saat check-in/out (immediate reward), level '
     'progression (long-term growth), leaderboard dan challenge (competition), achievement '
     'badges dan titles (recognition), serta produk fisik yang dapat ditukar dengan poin '
@@ -1123,7 +1123,7 @@ doc.add_paragraph(
 
 doc.add_paragraph(
     'Dengan roadmap pengembangan yang jelas menuju mobile application, geofencing, dan '
-    'public API, HadirkuGO memiliki potensi untuk menjadi platform kehadiran digital '
+    'public API, HadirquGO memiliki potensi untuk menjadi platform kehadiran digital '
     'terdepan yang tidak hanya mencatat kehadiran, tetapi juga membangun budaya kehadiran '
     'yang positif dan kompetitif di berbagai organisasi.'
 )
@@ -1133,7 +1133,7 @@ add_horizontal_line(doc)
 p = doc.add_paragraph()
 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p.paragraph_format.space_before = Pt(20)
-run = p.add_run('HadirkuGO \u2014 Transforming Attendance into Achievement')
+run = p.add_run('HadirquGO \u2014 Transforming Attendance into Achievement')
 run.font.size = Pt(14)
 run.font.color.rgb = RGBColor(0x1A, 0x3C, 0x6E)
 run.font.name = 'Calibri'
@@ -1150,6 +1150,6 @@ run.font.name = 'Calibri'
 # ============================================================
 # SAVE
 # ============================================================
-output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'WHITEPAPER_HadirkuGO.docx')
+output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'WHITEPAPER_HadirquGO.docx')
 doc.save(output_path)
 print(f'Whitepaper saved to: {output_path}')

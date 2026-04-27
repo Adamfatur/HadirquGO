@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png" alt="HadirkuGO Logo">
+                <img src="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png" alt="HadirquGO Logo">
             </a>
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <i class="fas fa-bars fs-3 text-dark"></i>

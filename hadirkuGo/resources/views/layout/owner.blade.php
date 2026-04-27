@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'HadirkuGO')</title>
+    <title>@yield('title', 'HadirquGO')</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -131,7 +131,7 @@
                 <button class="navbar-toggler me-2" type="button" onclick="toggleSidebar()">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand d-lg-none" href="#">HadirkuGO</a>
+                <a class="navbar-brand d-lg-none" href="#">HadirquGO</a>
 
                 <div class="d-flex align-items-center ms-auto">
                     <div class="dropdown">

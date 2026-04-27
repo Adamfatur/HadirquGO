@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ __('Attendance Report for') }} {{ $team->name }} | HadirkuGO</title>
-    <meta name="description" content="View detailed attendance reports, rankings, and summaries for {{ $team->name }} on HadirkuGO. Track team performance and attendance trends for {{ \Carbon\Carbon::parse($month)->format('F Y') }}.">
-    <meta name="keywords" content="attendance report, team attendance, monthly summary, {{ $team->name }} attendance, HadirkuGO, Raharja University">
+    <title>{{ __('Attendance Report for') }} {{ $team->name }} | HadirquGO</title>
+    <meta name="description" content="View detailed attendance reports, rankings, and summaries for {{ $team->name }} on HadirquGO. Track team performance and attendance trends for {{ \Carbon\Carbon::parse($month)->format('F Y') }}.">
+    <meta name="keywords" content="attendance report, team attendance, monthly summary, {{ $team->name }} attendance, HadirquGO, Raharja University">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="https://drive.pastibisa.app/1737344039_678dc427e611b.png">
-    <meta property="og:title" content="{{ __('Attendance Report for') }} {{ $team->name }} | HadirkuGO">
-    <meta property="og:description" content="View detailed attendance reports, rankings, and summaries for {{ $team->name }} on HadirkuGO. Track team performance and attendance trends for {{ \Carbon\Carbon::parse($month)->format('F Y') }}.">
-    <meta property="og:image" content="https://hadirkugo.raharja.ac.id/images/og-image.png">
+    <meta property="og:title" content="{{ __('Attendance Report for') }} {{ $team->name }} | HadirquGO">
+    <meta property="og:description" content="View detailed attendance reports, rankings, and summaries for {{ $team->name }} on HadirquGO. Track team performance and attendance trends for {{ \Carbon\Carbon::parse($month)->format('F Y') }}.">
+    <meta property="og:image" content="https://hadirqugo.raharja.ac.id/images/og-image.png">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">

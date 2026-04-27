@@ -115,9 +115,9 @@
 
                         <p style="font-size: 16px; line-height: 1.6; color: #666;">
                             If you have any questions, please email us at
-                            <a href="mailto:mail.hadirkugo@alphabetincubator.id"
+                            <a href="mailto:mail.hadirqugo@alphabetincubator.id"
                                style="color: #00c6ff; text-decoration: none;">
-                                mail.hadirkugo@alphabetincubator.id
+                                mail.hadirqugo@alphabetincubator.id
                             </a>.
                             This is an automated message, so please do not reply to this email directly.
                         </p>

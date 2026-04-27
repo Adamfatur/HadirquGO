@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="HadirkuGO Journey - {{ $stats['user_name'] ?? 'User' }}">
-    <meta property="og:title" content="HadirkuGO - Journey of {{ $stats['user_name'] ?? 'User' }}">
+    <meta name="description" content="HadirquGO Journey - {{ $stats['user_name'] ?? 'User' }}">
+    <meta property="og:title" content="HadirquGO - Journey of {{ $stats['user_name'] ?? 'User' }}">
     <meta property="og:image" content="https://drive.pastibisa.app/1731549866_67355aaaea1f0.png">
     <meta property="og:url" content="{{ url()->current() }}">
     <title>Journey of {{ $stats['user_name'] ?? 'User' }}</title>
@@ -102,7 +102,7 @@
     $slides = [
         [
             'bg' => $bg(0), 'particle' => 'stars', 'icon' => 'fas fa-scroll',
-            'title_en' => 'Your Journey with HadirkuGO', 'title_id' => 'Perjalananmu dengan HadirkuGO',
+            'title_en' => 'Your Journey with HadirquGO', 'title_id' => 'Perjalananmu dengan HadirquGO',
             'text_en' => 'Discover the milestones and memories you\'ve created along the way.',
             'text_id' => 'Temukan pencapaian dan kenangan yang telah kamu ciptakan.',
             'is_welcome' => true,
@@ -163,7 +163,7 @@
 
 <!-- Preloader -->
 <div id="preloader">
-    <h2>HadirkuGO</h2>
+    <h2>HadirquGO</h2>
     <div class="spinner"></div>
     <p>Loading your journey...</p>
 </div>
@@ -185,7 +185,7 @@
 <button class="nav-btn" id="navBtn" onclick="nextSlide()">Next →</button>
 
 <!-- Audio -->
-<audio id="bgMusic" src="https://hadirkugo.raharja.ac.id/music/music-hadirkugo.mp3" loop preload="auto"></audio>
+<audio id="bgMusic" src="https://hadirqugo.raharja.ac.id/music/music-hadirqugo.mp3" loop preload="auto"></audio>
 
 <!-- Slides -->
 <div class="slides-wrapper" id="slidesWrapper">
@@ -218,9 +218,9 @@
                         <span class="lang-id" style="display:none;">{!! $slide['text_id'] !!}</span>
                     </p>
                     <div class="share-links">
-                        <a href="https://api.whatsapp.com/send?text={{ urlencode('Check out my Journey on HadirkuGO: ' . $shareUrl) }}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                        <a href="https://api.whatsapp.com/send?text={{ urlencode('Check out my Journey on HadirquGO: ' . $shareUrl) }}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($shareUrl) }}" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
-                        <a href="https://twitter.com/intent/tweet?url={{ urlencode($shareUrl) }}&text={{ urlencode('My Journey on HadirkuGO!') }}" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode($shareUrl) }}&text={{ urlencode('My Journey on HadirquGO!') }}" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
                         <button onclick="shareViaWebAPI()"><i class="fas fa-share-alt"></i> Share</button>
                     </div>
                 @else
@@ -328,7 +328,7 @@ window.addEventListener('keydown', (e) => {
 /* === SHARE === */
 function shareViaWebAPI() {
     if (navigator.share) {
-        navigator.share({ title: 'My Journey on HadirkuGO', text: 'Check out this journey!', url: "{{ $shareUrl }}" }).catch(() => {});
+        navigator.share({ title: 'My Journey on HadirquGO', text: 'Check out this journey!', url: "{{ $shareUrl }}" }).catch(() => {});
     } else {
         navigator.clipboard.writeText("{{ $shareUrl }}").then(() => alert('Link copied!'));
     }

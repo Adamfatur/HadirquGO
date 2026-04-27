@@ -1,21 +1,21 @@
-<!-- What is HadirkuGO Section -->
+<!-- What is HadirquGO Section -->
 <div class="col-12 col-md-12">
     <div class="card shadow-sm mb-4 animate-card"
          style="background: linear-gradient(135deg, #3256bd, #1eafa3);
             border-radius: 15px; padding: 20px; color: white; border: none;">
     <div class="card-body">
         <div class="text-center mb-3">
-            <h5 class="fw-bold">What is HadirkuGO?</h5>
+            <h5 class="fw-bold">What is HadirquGO?</h5>
         </div>
         <div class="text-center">
             <p class="text-light">
-                HadirkuGO transforms attendance into a fun, game-like experience. Earn points, collect badges, and climb the ranks while making your presence a meaningful part of your life. Be the MVP every day!
+                HadirquGO transforms attendance into a fun, game-like experience. Earn points, collect badges, and climb the ranks while making your presence a meaningful part of your life. Be the MVP every day!
             </p>
         </div>
         <div class="text-center mt-4">
             <button id="discoverBtn"
                     style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); border: none; border-radius: 12px; padding: 12px 24px; font-size: 16px; font-weight: bold; color: white; cursor: pointer; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;"
-                    onclick="window.location.href='https://bisnisdigital.raharja.ac.id/hadirkugo-gamifikasi-absensi-ubah-kerja-seru-seperti-main-game/'">
+                    onclick="window.location.href='https://bisnisdigital.raharja.ac.id/hadirqugo-gamifikasi-absensi-ubah-kerja-seru-seperti-main-game/'">
                 <span style="position: relative; z-index: 2;">Discover the Answer</span>
                 <span class="btn-shine"></span>
             </button>

@@ -4,7 +4,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
                     <h1>Digital & <br><span class="text-gradient">Gamified Attendance</span></h1>
-                    <p>HadirkuGO transforms the tedious attendance process into an interactive experience. Utilize dynamic QR codes, collect points, and monitor your team's progress in real-time.</p>
+                    <p>HadirquGO transforms the tedious attendance process into an interactive experience. Utilize dynamic QR codes, collect points, and monitor your team's progress in real-time.</p>
                     <div class="d-flex flex-wrap gap-3">
                         <a href="/login" class="btn btn-hero">
                             Get Started <i class="fas fa-rocket"></i>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-lg-6 mt-5 mt-lg-0 text-center" data-aos="zoom-in" data-aos-duration="1200">
                     <div class="position-relative d-inline-block">
-                        <img src="https://drive.pastibisa.app/1731549860_67355aa46d47e.jpg" alt="HadirkuGO App Interface" class="main-image rounded-circle border border-5 border-white shadow-lg">
+                        <img src="https://drive.pastibisa.app/1731549860_67355aa46d47e.jpg" alt="HadirquGO App Interface" class="main-image rounded-circle border border-5 border-white shadow-lg">
                         <div class="floating-card card-1">
                             <div class="icon-box bg-blue"><i class="fas fa-check-circle"></i></div>
                             <div>

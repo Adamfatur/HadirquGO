@@ -1,4 +1,4 @@
-{{-- SaiQu AI Floating Chat Widget — HadirkuGO Theme --}}
+{{-- SaiQu AI Floating Chat Widget — HadirquGO Theme --}}
 <style>
     /* ========== FAB Button ========== */
     #saiqu-fab {
@@ -367,7 +367,7 @@
             <div>
                 <div class="saiqu-header-title">SaiQu AI</div>
                 <div class="saiqu-header-status">
-                    <span class="saiqu-online-dot"></span> Online — HadirkuGO
+                    <span class="saiqu-online-dot"></span> Online — HadirquGO
                 </div>
             </div>
         </div>
@@ -381,7 +381,7 @@
     <div class="saiqu-messages" id="saiqu-messages">
         <div class="saiqu-msg bot">
             Halo {{ Auth::user()->display_name ?? 'Kamu' }}! 👋<br>
-            Saya <strong>SaiQu</strong>, asisten AI HadirkuGO.<br>
+            Saya <strong>SaiQu</strong>, asisten AI HadirquGO.<br>
             Tanya apa saja tentang poin, absensi, level, tim, dan fitur lainnya!
         </div>
     </div>

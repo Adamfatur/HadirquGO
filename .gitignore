@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files with credentials
+*.env.bak
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Kiro
+.kiro/

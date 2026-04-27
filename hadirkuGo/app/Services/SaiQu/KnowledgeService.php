@@ -257,7 +257,7 @@ class KnowledgeService
     {
         if (!$user) return '';
 
-        $cacheKey = "saiqu:user_ctx:{$user->id}";
+        $cacheKey = "saiqu:user_ctx:v2:{$user->id}";
         return Cache::remember($cacheKey, self::userTtl(), function () use ($user) {
             $summary = $user->pointSummary;
             $totalPoints = $summary->total_points ?? 0;
@@ -575,7 +575,7 @@ class KnowledgeService
         // If user asks about specific person
         $nameSearch = self::extractPersonName($query);
         if ($nameSearch) {
-            $cacheKey = "saiqu:search:" . md5($nameSearch);
+            $cacheKey = "saiqu:search:v2:" . md5($nameSearch);
             $foundData = Cache::remember($cacheKey, self::userTtl(), function () use ($nameSearch) {
                 return User::where('name', 'like', "%{$nameSearch}%")
                     ->limit(3)
@@ -724,7 +724,7 @@ class KnowledgeService
         if (!$nameSearch) return null;
         if (mb_strlen($nameSearch) < 3) return null;
 
-        $cacheKey = "saiqu:usearch:" . md5($nameSearch);
+        $cacheKey = "saiqu:usearch:v2:" . md5($nameSearch);
         $results = Cache::remember($cacheKey, self::userTtl(), function () use ($nameSearch) {
             $nameWords = explode(' ', $nameSearch);
 

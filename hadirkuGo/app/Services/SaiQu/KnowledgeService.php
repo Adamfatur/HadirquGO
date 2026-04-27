@@ -22,6 +22,7 @@ use App\Models\Reward;
 use App\Models\UserReward;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class KnowledgeService
@@ -56,7 +57,12 @@ class KnowledgeService
 
         // Always include user context if available (short cache)
         if ($user) {
-            $context[] = self::getUserContext($user);
+            try {
+                $context[] = self::getUserContext($user);
+            } catch (\Exception $e) {
+                Log::warning('SaiQu user context failed', ['error' => $e->getMessage()]);
+                $context[] = "USER: Nama={$user->display_name}";
+            }
         }
 
         // Smart topic matching — multiple topics can match
@@ -89,26 +95,31 @@ class KnowledgeService
             $matchedTopics = ['feature', 'statistics'];
         }
 
-        // Build context for each matched topic
+        // Build context for each matched topic — each wrapped in try/catch
+        // so one failure doesn't kill all context
         foreach ($matchedTopics as $topic) {
-            $ctx = match ($topic) {
-                'attendance'  => self::getAttendanceContext($user, $lower),
-                'points'      => self::getPointsContext($user, $lower),
-                'level'       => self::getLevelContext($user),
-                'leaderboard' => self::getLeaderboardContext($user, $lower),
-                'team'        => self::getTeamContext($user),
-                'achievement' => self::getAchievementContext($user),
-                'quiz'        => self::getQuizContext($user),
-                'reward'      => self::getRewardContext($user),
-                'challenge'   => self::getChallengeContext($user),
-                'checkin'     => self::getDailyCheckinContext($user),
-                'statistics'  => self::getStatisticsContext(),
-                'feature'     => self::getFeatureGuide(),
-                'profile'     => self::getProfileContext($user),
-                'location'    => self::getLocationContext(),
-                default       => '',
-            };
-            if ($ctx) $context[] = $ctx;
+            try {
+                $ctx = match ($topic) {
+                    'attendance'  => self::getAttendanceContext($user, $lower),
+                    'points'      => self::getPointsContext($user, $lower),
+                    'level'       => self::getLevelContext($user),
+                    'leaderboard' => self::getLeaderboardContext($user, $lower),
+                    'team'        => self::getTeamContext($user),
+                    'achievement' => self::getAchievementContext($user),
+                    'quiz'        => self::getQuizContext($user),
+                    'reward'      => self::getRewardContext($user),
+                    'challenge'   => self::getChallengeContext($user),
+                    'checkin'     => self::getDailyCheckinContext($user),
+                    'statistics'  => self::getStatisticsContext(),
+                    'feature'     => self::getFeatureGuide(),
+                    'profile'     => self::getProfileContext($user),
+                    'location'    => self::getLocationContext(),
+                    default       => '',
+                };
+                if ($ctx) $context[] = $ctx;
+            } catch (\Exception $e) {
+                Log::warning("SaiQu context builder failed for topic: {$topic}", ['error' => $e->getMessage()]);
+            }
         }
 
         return implode("\n\n", array_filter($context));
@@ -250,11 +261,27 @@ class KnowledgeService
             $titleStr = $rank && $rank->title ? ", Gelar={$rank->title}" : '';
             $frameStr = $rank && $rank->frame_color ? ", Frame={$rank->frame_color}" : '';
 
-            // Daily checkin streak
-            $streak = DailyCheckin::where('user_id', $user->id)
+            // Daily checkin streak (calculated from consecutive dates)
+            $streakCount = 0;
+            $checkins = DailyCheckin::where('user_id', $user->id)
                 ->orderBy('checkin_date', 'desc')
-                ->first();
-            $streakStr = $streak ? ", Streak={$streak->current_streak} hari" : '';
+                ->limit(60)
+                ->pluck('checkin_date')
+                ->toArray();
+
+            if (!empty($checkins)) {
+                $streakCount = 1;
+                for ($i = 1; $i < count($checkins); $i++) {
+                    $prev = \Carbon\Carbon::parse($checkins[$i - 1]);
+                    $curr = \Carbon\Carbon::parse($checkins[$i]);
+                    if ($prev->diffInDays($curr) === 1) {
+                        $streakCount++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            $streakStr = $streakCount > 0 ? ", Streak={$streakCount} hari" : '';
 
             return "USER: Nama={$user->display_name}, Role={$roles}, "
                  . "Total Poin=" . ($summary->total_points ?? 0) . ", "
@@ -800,15 +827,34 @@ class KnowledgeService
 
         if ($user) {
             $checkinData = Cache::remember("saiqu:daily_checkin:{$user->id}", self::userTtl(), function () use ($user) {
-                $latest = DailyCheckin::where('user_id', $user->id)
-                    ->orderBy('checkin_date', 'desc')
-                    ->first();
-
                 $totalDays = DailyCheckin::where('user_id', $user->id)->count();
 
+                // Calculate streak from consecutive dates
+                $checkins = DailyCheckin::where('user_id', $user->id)
+                    ->orderBy('checkin_date', 'desc')
+                    ->limit(60)
+                    ->pluck('checkin_date')
+                    ->toArray();
+
+                $streakCount = 0;
+                $lastDate = null;
+                if (!empty($checkins)) {
+                    $streakCount = 1;
+                    for ($i = 1; $i < count($checkins); $i++) {
+                        $prev = Carbon::parse($checkins[$i - 1]);
+                        $curr = Carbon::parse($checkins[$i]);
+                        if ($prev->diffInDays($curr) === 1) {
+                            $streakCount++;
+                        } else {
+                            break;
+                        }
+                    }
+                    $lastDate = $checkins[0];
+                }
+
                 return [
-                    'streak' => $latest ? $latest->current_streak : 0,
-                    'last_date' => $latest ? $latest->checkin_date : null,
+                    'streak' => $streakCount,
+                    'last_date' => $lastDate,
                     'total_days' => $totalDays,
                 ];
             });
@@ -893,7 +939,8 @@ class KnowledgeService
     protected static function getLocationContext(): string
     {
         return Cache::remember('saiqu:locations', self::ttl(), function () {
-            $topLocations = LocationLeaderboard::orderBy('current_rank', 'asc')
+            $topLocations = LocationLeaderboard::with('attendanceLocation')
+                ->orderBy('current_rank', 'asc')
                 ->limit(10)
                 ->get();
 
@@ -903,7 +950,8 @@ class KnowledgeService
             } else {
                 $lines[] = "Top 10 Lokasi Paling Sering Dikunjungi:";
                 foreach ($topLocations as $loc) {
-                    $lines[] = "- #{$loc->current_rank} {$loc->location_name}: {$loc->score} kunjungan";
+                    $name = $loc->attendanceLocation->name ?? 'Unknown';
+                    $lines[] = "- #{$loc->current_rank} {$name}: {$loc->score} kunjungan";
                 }
             }
             return implode("\n", $lines);

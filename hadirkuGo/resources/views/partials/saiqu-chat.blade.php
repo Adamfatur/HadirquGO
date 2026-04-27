@@ -534,10 +534,13 @@
         .then(data => {
             typing.classList.remove('active');
             appendMessage('bot', data.answer || 'Maaf, terjadi kesalahan.');
+            // Show quick actions again after bot responds
+            showQuickActions();
         })
         .catch(() => {
             typing.classList.remove('active');
             appendMessage('bot', 'Maaf, terjadi kesalahan koneksi. Coba lagi ya! 🔄');
+            showQuickActions();
         })
         .finally(() => {
             saiquSending = false;

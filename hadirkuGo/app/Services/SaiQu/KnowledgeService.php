@@ -646,27 +646,34 @@ class KnowledgeService
     {
         // Remove common question/filler words but keep potential names
         $stopWords = [
-            'siapa', 'berapa', 'apa', 'dimana', 'kapan', 'bagaimana',
-            'si', 'nya', 'itu', 'yang', 'di', 'ke', 'dari', 'dengan',
-            'untuk', 'dan', 'atau', 'ini', 'aku', 'saya', 'kamu',
-            'dia', 'mereka', 'mau', 'tau', 'tahu', 'coba', 'cari',
-            'tolong', 'bisa', 'dong', 'deh', 'ya', 'nih', 'lah',
-            'peringkat', 'ranking', 'rank', 'point', 'poin', 'level',
-            'top', 'nomor', 'no', 'info', 'informasi', 'tentang',
-            'score', 'skor', 'berapa', 'data', 'lihat', 'kasih',
-            'dospem', 'dosen', 'pembimbing', 'namanya', 'beliau',
+            // Question words
+            'siapa', 'berapa', 'apa', 'dimana', 'kapan', 'bagaimana', 'gimana', 'kenapa', 'mengapa',
+            // Pronouns & particles
+            'si', 'nya', 'itu', 'yang', 'di', 'ke', 'dari', 'dengan', 'sama',
+            'untuk', 'dan', 'atau', 'ini', 'aku', 'saya', 'kamu', 'gue', 'gw',
+            'dia', 'mereka', 'kita', 'beliau', 'nya',
+            // Verbs & fillers
+            'mau', 'tau', 'tahu', 'coba', 'cari', 'kasih', 'lihat', 'liat',
+            'tolong', 'bisa', 'dong', 'deh', 'ya', 'nih', 'lah', 'sih', 'kok',
+            'udah', 'sudah', 'belum', 'jadi', 'nah', 'terus', 'lalu', 'kalau',
+            'kalo', 'gimana', 'apakah', 'kapan', 'terakhir', 'sekarang',
+            // System keywords
+            'peringkat', 'ranking', 'rank', 'point', 'poin', 'level', 'skor', 'score',
+            'top', 'nomor', 'no', 'info', 'informasi', 'tentang', 'data',
+            'dospem', 'dosen', 'pembimbing', 'namanya', 'nama',
+            'absen', 'absensi', 'attendance', 'checkin', 'checkout',
+            'check', 'tim', 'team', 'achievement', 'quiz', 'reward',
+            'challenge', 'leaderboard', 'dashboard', 'statistik',
+            'kalender', 'feedback', 'hadirkugo', 'profil', 'profile',
         ];
 
         $words = preg_split('/\s+/', mb_strtolower(trim($query)));
         $nameWords = [];
 
         foreach ($words as $word) {
-            // Skip stop words and very short words
             $cleanWord = preg_replace('/[^a-z]/', '', $word);
             if (mb_strlen($cleanWord) < 2) continue;
             if (in_array($cleanWord, $stopWords)) continue;
-            // Skip if it's a common system keyword
-            if (in_array($cleanWord, ['absensi', 'attendance', 'checkin', 'checkout', 'quiz', 'reward', 'challenge', 'achievement', 'leaderboard', 'dashboard', 'statistik', 'kalender', 'feedback', 'hadirkugo'])) continue;
             $nameWords[] = $cleanWord;
         }
 
@@ -685,23 +692,35 @@ class KnowledgeService
     {
         $nameSearch = self::extractPersonName($query);
         if (!$nameSearch) return null;
-
-        // Don't search if the extracted name is too generic
         if (mb_strlen($nameSearch) < 3) return null;
 
         $cacheKey = "saiqu:usearch:" . md5($nameSearch);
         $results = Cache::remember($cacheKey, self::userTtl(), function () use ($nameSearch) {
-            // Split name into words for flexible matching
             $nameWords = explode(' ', $nameSearch);
 
+            // Try AND matching first (all words must match)
             $queryBuilder = User::query();
             foreach ($nameWords as $word) {
                 if (mb_strlen($word) >= 2) {
                     $queryBuilder->where('name', 'like', "%{$word}%");
                 }
             }
+            $users = $queryBuilder->limit(3)->get();
 
-            return $queryBuilder->limit(3)->get()->map(function ($found) {
+            // If AND matching found nothing, try OR matching (any word)
+            if ($users->isEmpty() && count($nameWords) > 1) {
+                $queryBuilder = User::query();
+                $queryBuilder->where(function ($q) use ($nameWords) {
+                    foreach ($nameWords as $word) {
+                        if (mb_strlen($word) >= 2) {
+                            $q->orWhere('name', 'like', "%{$word}%");
+                        }
+                    }
+                });
+                $users = $queryBuilder->limit(3)->get();
+            }
+
+            return $users->map(function ($found) {
                 $summary = $found->pointSummary;
                 $rank = UserLeaderboard::where('category', 'top_points')
                     ->where('user_id', $found->id)->first();
@@ -709,15 +728,33 @@ class KnowledgeService
                 $roles = $found->roles->pluck('name')->implode(', ');
                 $achievementCount = UserAchievement::where('user_id', $found->id)->count();
 
+                // Get latest attendance
+                $latestAtt = Attendance::where('user_id', $found->id)
+                    ->orderBy('checkin_time', 'desc')
+                    ->with('attendanceLocation')
+                    ->first();
+
+                $attInfo = 'Belum pernah absen';
+                if ($latestAtt) {
+                    $date = $latestAtt->checkin_time ? $latestAtt->checkin_time->format('d M Y H:i') : '-';
+                    $loc = $latestAtt->attendanceLocation->name ?? 'Unknown';
+                    $attInfo = "Terakhir absen: {$date} di {$loc}";
+                }
+
+                // Total attendance count
+                $totalAtt = Attendance::where('user_id', $found->id)->count();
+
                 return [
                     'name' => $found->display_name,
-                    'roles' => $roles,
+                    'roles' => $roles ?: 'User',
                     'total_points' => $summary->total_points ?? 0,
                     'current_points' => $summary->current_points ?? 0,
                     'rank' => $rank ? "#{$rank->current_rank}" : 'Tidak di Top 50',
                     'level' => $level ? $level->name : 'Unknown',
                     'title' => $rank->title ?? null,
                     'achievements' => $achievementCount,
+                    'last_attendance' => $attInfo,
+                    'total_attendance' => $totalAtt,
                 ];
             })->toArray();
         });
@@ -727,7 +764,7 @@ class KnowledgeService
         $lines = ["DATA USER YANG DICARI:"];
         foreach ($results as $u) {
             $titleStr = $u['title'] ? ", Gelar={$u['title']}" : '';
-            $lines[] = "- {$u['name']}: Role={$u['roles']}, Total Poin={$u['total_points']}, Current Poin={$u['current_points']}, Ranking={$u['rank']}, Level={$u['level']}{$titleStr}, Achievements={$u['achievements']}";
+            $lines[] = "- {$u['name']}: Role={$u['roles']}, Total Poin={$u['total_points']}, Current Poin={$u['current_points']}, Ranking={$u['rank']}, Level={$u['level']}{$titleStr}, Achievements={$u['achievements']}, Total Absensi={$u['total_attendance']}, {$u['last_attendance']}";
         }
 
         return implode("\n", $lines);

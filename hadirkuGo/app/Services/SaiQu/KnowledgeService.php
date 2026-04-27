@@ -70,7 +70,7 @@ class KnowledgeService
             'attendance'   => ['absen', 'hadir', 'checkin', 'checkout', 'check-in', 'check-out', 'jam', 'waktu', 'hari ini', 'kemarin', 'masuk', 'keluar', 'presensi', 'datang', 'pulang'],
             'points'       => ['poin', 'point', 'skor', 'score', 'jarak', 'banding', 'selisih', 'tesla'],
             'level'        => ['level', 'tingkat', 'exp', 'naik level', 'level up'],
-            'leaderboard'  => ['rank', 'ranking', 'peringkat', 'leaderboard', 'top', 'juara', 'tertinggi', 'terbanyak', 'nomor 1', 'no 1', 'siapa', 'papan peringkat', 'posisi'],
+            'leaderboard'  => ['rank', 'ranking', 'peringkat', 'leaderboard', 'top', 'juara', 'tertinggi', 'terbanyak', 'nomor 1', 'no 1', 'papan peringkat', 'posisi'],
             'team'         => ['tim', 'team', 'anggota', 'member', 'kelompok', 'gabung', 'pimpin', 'leader'],
             'achievement'  => ['achievement', 'pencapaian', 'badge', 'medali', 'lencana', 'unlock'],
             'quiz'         => ['quiz', 'kuis', 'soal', 'ujian', 'superquiz', 'super quiz', 'jawab'],
@@ -120,6 +120,17 @@ class KnowledgeService
             } catch (\Exception $e) {
                 Log::warning("SaiQu context builder failed for topic: {$topic}", ['error' => $e->getMessage()]);
             }
+        }
+
+        // Always try to search for mentioned users in the query
+        // This handles "berapa poin Untung Rahardja", "cari info tentang Aulia", etc.
+        try {
+            $userSearchCtx = self::searchMentionedUser($lower);
+            if ($userSearchCtx) {
+                $context[] = $userSearchCtx;
+            }
+        } catch (\Exception $e) {
+            Log::warning('SaiQu user search failed', ['error' => $e->getMessage()]);
         }
 
         return implode("\n\n", array_filter($context));
@@ -421,60 +432,57 @@ class KnowledgeService
         $summary = $user->pointSummary;
         if (!$summary) return "POINTS: Belum ada data poin.";
 
-        $cacheKey = "saiqu:points_ctx:{$user->id}";
-        return Cache::remember($cacheKey, self::userTtl(), function () use ($user, $summary, $query) {
-            $lines = ["POINTS DATA:"];
-            $lines[] = "- Poin kamu: Total={$summary->total_points}, Current={$summary->current_points}";
+        $lines = ["POINTS DATA:"];
+        $lines[] = "- Poin kamu: Total={$summary->total_points}, Current={$summary->current_points}";
 
-            // Points needed for next level
-            $currentLevel = $user->userLevel?->level;
-            if ($currentLevel && $currentLevel->maximum_points) {
-                $needed = $currentLevel->maximum_points - $summary->total_points;
-                if ($needed > 0) {
-                    $lines[] = "- Poin untuk naik level: {$needed} poin lagi";
-                }
+        // Points needed for next level
+        $currentLevel = $user->userLevel?->level;
+        if ($currentLevel && $currentLevel->maximum_points) {
+            $needed = $currentLevel->maximum_points - $summary->total_points;
+            if ($needed > 0) {
+                $lines[] = "- Poin untuk naik level: {$needed} poin lagi";
             }
+        }
 
-            // Top 10 for comparison
-            $top10 = Cache::remember('saiqu:top10_points', 300, function () {
-                return UserPointSummary::with('user')
-                    ->orderByDesc('total_points')
-                    ->limit(10)
-                    ->get()
-                    ->map(fn ($ups) => [
-                        'name' => $ups->user->display_name ?? 'Unknown',
-                        'points' => $ups->total_points,
-                    ])->toArray();
-            });
-
-            if (self::match($query, ['jarak', 'banding', 'selisih', 'dengan', 'sama', 'vs', 'top', 'tertinggi'])) {
-                $lines[] = "Top 10 poin tertinggi:";
-                foreach ($top10 as $i => $entry) {
-                    $diff = $summary->total_points - $entry['points'];
-                    $diffStr = $diff >= 0 ? "+{$diff}" : "{$diff}";
-                    $lines[] = "- #" . ($i + 1) . " {$entry['name']}: {$entry['points']} poin (selisih: {$diffStr})";
-                }
-            }
-
-            // Comparison rival
-            if ($user->comparison_user_id) {
-                $rival = Cache::remember("saiqu:rival:{$user->comparison_user_id}", self::userTtl(), function () use ($user) {
-                    $r = User::with('pointSummary')->find($user->comparison_user_id);
-                    if (!$r) return null;
-                    return [
-                        'name' => $r->display_name,
-                        'points' => $r->pointSummary->total_points ?? 0,
-                    ];
-                });
-                if ($rival) {
-                    $diff = $summary->total_points - $rival['points'];
-                    $diffStr = $diff >= 0 ? "kamu unggul +{$diff}" : "kamu tertinggal " . abs($diff);
-                    $lines[] = "- Rival kamu: {$rival['name']} ({$rival['points']} poin) — {$diffStr}";
-                }
-            }
-
-            return implode("\n", $lines);
+        // Top 10 for comparison (cached)
+        $top10 = Cache::remember('saiqu:top10_points', 300, function () {
+            return UserPointSummary::with('user')
+                ->orderByDesc('total_points')
+                ->limit(10)
+                ->get()
+                ->map(fn ($ups) => [
+                    'name' => $ups->user->display_name ?? 'Unknown',
+                    'points' => $ups->total_points,
+                ])->toArray();
         });
+
+        if (self::match($query, ['jarak', 'banding', 'selisih', 'dengan', 'sama', 'vs', 'top', 'tertinggi'])) {
+            $lines[] = "Top 10 poin tertinggi:";
+            foreach ($top10 as $i => $entry) {
+                $diff = $summary->total_points - $entry['points'];
+                $diffStr = $diff >= 0 ? "+{$diff}" : "{$diff}";
+                $lines[] = "- #" . ($i + 1) . " {$entry['name']}: {$entry['points']} poin (selisih: {$diffStr})";
+            }
+        }
+
+        // Comparison rival
+        if ($user->comparison_user_id) {
+            $rival = Cache::remember("saiqu:rival:{$user->comparison_user_id}", self::userTtl(), function () use ($user) {
+                $r = User::with('pointSummary')->find($user->comparison_user_id);
+                if (!$r) return null;
+                return [
+                    'name' => $r->display_name,
+                    'points' => $r->pointSummary->total_points ?? 0,
+                ];
+            });
+            if ($rival) {
+                $diff = $summary->total_points - $rival['points'];
+                $diffStr = $diff >= 0 ? "kamu unggul +{$diff}" : "kamu tertinggal " . abs($diff);
+                $lines[] = "- Rival kamu: {$rival['name']} ({$rival['points']} poin) — {$diffStr}";
+            }
+        }
+
+        return implode("\n", $lines);
     }
 
     protected static function getLevelContext(?User $user): string
@@ -636,14 +644,93 @@ class KnowledgeService
 
     protected static function extractPersonName(string $query): ?string
     {
-        $cleaned = preg_replace('/\b(siapa|berapa|apa|dimana|kapan|bagaimana|prof|professor|pak|bu|ibu|bapak|si|nya|itu|yang|di|ke|dari|dengan|untuk|dan|atau|ini|aku|saya|kamu|dia|mereka)\b/i', '', $query);
-        $cleaned = preg_replace('/\b(peringkat|ranking|rank|point|poin|level|top|nomor|no|mau|tau|tahu|info|informasi|tentang|berapa|score|skor)\b/i', '', $cleaned);
-        $cleaned = trim(preg_replace('/\s+/', ' ', $cleaned));
+        // Remove common question/filler words but keep potential names
+        $stopWords = [
+            'siapa', 'berapa', 'apa', 'dimana', 'kapan', 'bagaimana',
+            'si', 'nya', 'itu', 'yang', 'di', 'ke', 'dari', 'dengan',
+            'untuk', 'dan', 'atau', 'ini', 'aku', 'saya', 'kamu',
+            'dia', 'mereka', 'mau', 'tau', 'tahu', 'coba', 'cari',
+            'tolong', 'bisa', 'dong', 'deh', 'ya', 'nih', 'lah',
+            'peringkat', 'ranking', 'rank', 'point', 'poin', 'level',
+            'top', 'nomor', 'no', 'info', 'informasi', 'tentang',
+            'score', 'skor', 'berapa', 'data', 'lihat', 'kasih',
+            'dospem', 'dosen', 'pembimbing', 'namanya', 'beliau',
+        ];
 
-        if (mb_strlen($cleaned) >= 2 && !preg_match('/^\d+$/', $cleaned)) {
-            return $cleaned;
+        $words = preg_split('/\s+/', mb_strtolower(trim($query)));
+        $nameWords = [];
+
+        foreach ($words as $word) {
+            // Skip stop words and very short words
+            $cleanWord = preg_replace('/[^a-z]/', '', $word);
+            if (mb_strlen($cleanWord) < 2) continue;
+            if (in_array($cleanWord, $stopWords)) continue;
+            // Skip if it's a common system keyword
+            if (in_array($cleanWord, ['absensi', 'attendance', 'checkin', 'checkout', 'quiz', 'reward', 'challenge', 'achievement', 'leaderboard', 'dashboard', 'statistik', 'kalender', 'feedback', 'hadirkugo'])) continue;
+            $nameWords[] = $cleanWord;
+        }
+
+        $name = implode(' ', $nameWords);
+        if (mb_strlen($name) >= 3) {
+            return $name;
         }
         return null;
+    }
+
+    /**
+     * Search for a user mentioned in the query and return their info.
+     * This runs on every query to catch "berapa poin X", "info tentang X", etc.
+     */
+    protected static function searchMentionedUser(string $query): ?string
+    {
+        $nameSearch = self::extractPersonName($query);
+        if (!$nameSearch) return null;
+
+        // Don't search if the extracted name is too generic
+        if (mb_strlen($nameSearch) < 3) return null;
+
+        $cacheKey = "saiqu:usearch:" . md5($nameSearch);
+        $results = Cache::remember($cacheKey, self::userTtl(), function () use ($nameSearch) {
+            // Split name into words for flexible matching
+            $nameWords = explode(' ', $nameSearch);
+
+            $queryBuilder = User::query();
+            foreach ($nameWords as $word) {
+                if (mb_strlen($word) >= 2) {
+                    $queryBuilder->where('name', 'like', "%{$word}%");
+                }
+            }
+
+            return $queryBuilder->limit(3)->get()->map(function ($found) {
+                $summary = $found->pointSummary;
+                $rank = UserLeaderboard::where('category', 'top_points')
+                    ->where('user_id', $found->id)->first();
+                $level = $found->userLevel?->level;
+                $roles = $found->roles->pluck('name')->implode(', ');
+                $achievementCount = UserAchievement::where('user_id', $found->id)->count();
+
+                return [
+                    'name' => $found->display_name,
+                    'roles' => $roles,
+                    'total_points' => $summary->total_points ?? 0,
+                    'current_points' => $summary->current_points ?? 0,
+                    'rank' => $rank ? "#{$rank->current_rank}" : 'Tidak di Top 50',
+                    'level' => $level ? $level->name : 'Unknown',
+                    'title' => $rank->title ?? null,
+                    'achievements' => $achievementCount,
+                ];
+            })->toArray();
+        });
+
+        if (empty($results)) return null;
+
+        $lines = ["DATA USER YANG DICARI:"];
+        foreach ($results as $u) {
+            $titleStr = $u['title'] ? ", Gelar={$u['title']}" : '';
+            $lines[] = "- {$u['name']}: Role={$u['roles']}, Total Poin={$u['total_points']}, Current Poin={$u['current_points']}, Ranking={$u['rank']}, Level={$u['level']}{$titleStr}, Achievements={$u['achievements']}";
+        }
+
+        return implode("\n", $lines);
     }
 
     protected static function getTeamContext(?User $user): string

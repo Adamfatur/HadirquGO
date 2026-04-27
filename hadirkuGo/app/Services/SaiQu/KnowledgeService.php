@@ -260,7 +260,14 @@ class KnowledgeService
         $cacheKey = "saiqu:user_ctx:{$user->id}";
         return Cache::remember($cacheKey, self::userTtl(), function () use ($user) {
             $summary = $user->pointSummary;
-            $level = $user->userLevel?->level;
+            $totalPoints = $summary->total_points ?? 0;
+
+            // Determine level from points directly (more accurate than user_levels table)
+            $level = Level::where('minimum_points', '<=', $totalPoints)
+                ->where('maximum_points', '>', $totalPoints)
+                ->first();
+            $levelName = $level ? $level->name : 'Unknown';
+
             $roles = $user->roles->pluck('name')->implode(', ');
             $achievementCount = UserAchievement::where('user_id', $user->id)->count();
 
@@ -294,10 +301,23 @@ class KnowledgeService
             }
             $streakStr = $streakCount > 0 ? ", Streak={$streakCount} hari" : '';
 
+            // Next level info
+            $nextLevelStr = '';
+            if ($level && $level->maximum_points) {
+                $needed = $level->maximum_points - $totalPoints;
+                if ($needed > 0) {
+                    $nextLevel = Level::where('minimum_points', '>=', $level->maximum_points)
+                        ->orderBy('minimum_points', 'asc')
+                        ->first();
+                    $nextName = $nextLevel ? $nextLevel->name : 'Max Level';
+                    $nextLevelStr = ", Next Level={$nextName} (butuh {$needed} poin lagi)";
+                }
+            }
+
             return "USER: Nama={$user->display_name}, Role={$roles}, "
-                 . "Total Poin=" . ($summary->total_points ?? 0) . ", "
+                 . "Total Poin={$totalPoints}, "
                  . "Current Poin=" . ($summary->current_points ?? 0) . ", "
-                 . "Level=" . ($level->name ?? 'Belum ada') . ", "
+                 . "Level={$levelName}{$nextLevelStr}, "
                  . "Ranking={$rankStr}{$titleStr}{$frameStr}, "
                  . "Achievements={$achievementCount}"
                  . $streakStr . ".";
@@ -436,7 +456,9 @@ class KnowledgeService
         $lines[] = "- Poin kamu: Total={$summary->total_points}, Current={$summary->current_points}";
 
         // Points needed for next level
-        $currentLevel = $user->userLevel?->level;
+        $currentLevel = Level::where('minimum_points', '<=', $summary->total_points)
+            ->where('maximum_points', '>', $summary->total_points)
+            ->first();
         if ($currentLevel && $currentLevel->maximum_points) {
             $needed = $currentLevel->maximum_points - $summary->total_points;
             if ($needed > 0) {
@@ -498,14 +520,19 @@ class KnowledgeService
             $lines[] = "- {$lv}";
         }
 
-        if ($user && $user->userLevel) {
-            $currentLevel = $user->userLevel->level;
-            $lines[] = "Level kamu: {$currentLevel->name}";
+        if ($user) {
             $summary = $user->pointSummary;
-            if ($summary && $currentLevel->maximum_points) {
-                $progress = min(100, round(($summary->total_points / $currentLevel->maximum_points) * 100, 1));
-                $needed = max(0, $currentLevel->maximum_points - $summary->total_points);
-                $lines[] = "Progress: {$progress}% ({$needed} poin lagi untuk naik level)";
+            $totalPoints = $summary->total_points ?? 0;
+            $currentLevel = Level::where('minimum_points', '<=', $totalPoints)
+                ->where('maximum_points', '>', $totalPoints)
+                ->first();
+            if ($currentLevel) {
+                $lines[] = "Level kamu: {$currentLevel->name}";
+                if ($currentLevel->maximum_points) {
+                    $progress = min(100, round(($totalPoints / $currentLevel->maximum_points) * 100, 1));
+                    $needed = max(0, $currentLevel->maximum_points - $totalPoints);
+                    $lines[] = "Progress: {$progress}% ({$needed} poin lagi untuk naik level)";
+                }
             }
         }
 
@@ -557,7 +584,10 @@ class KnowledgeService
                         $summary = $found->pointSummary;
                         $rank = UserLeaderboard::where('category', 'top_points')
                             ->where('user_id', $found->id)->first();
-                        $level = $found->userLevel?->level;
+                        $foundPts = $summary ? $summary->total_points : 0;
+                        $level = Level::where('minimum_points', '<=', $foundPts)
+                            ->where('maximum_points', '>', $foundPts)
+                            ->first();
                         return [
                             'name' => $found->display_name,
                             'rank' => $rank ? "#{$rank->current_rank}" : 'Tidak di leaderboard',
@@ -722,9 +752,15 @@ class KnowledgeService
 
             return $users->map(function ($found) {
                 $summary = $found->pointSummary;
+                $totalPts = $summary->total_points ?? 0;
                 $rank = UserLeaderboard::where('category', 'top_points')
                     ->where('user_id', $found->id)->first();
-                $level = $found->userLevel?->level;
+
+                // Determine level from points directly
+                $level = Level::where('minimum_points', '<=', $totalPts)
+                    ->where('maximum_points', '>', $totalPts)
+                    ->first();
+
                 $roles = $found->roles->pluck('name')->implode(', ');
                 $achievementCount = UserAchievement::where('user_id', $found->id)->count();
 

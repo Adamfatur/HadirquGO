@@ -48,11 +48,9 @@ class SaiQuController extends Controller
         }
 
         // --- Build Context (RAG) ---
-        // Include recent history in query for better topic matching
         $context = '';
         try {
-            $enrichedQuery = $this->enrichQueryWithHistory($message, $history);
-            $context = KnowledgeService::getRelevantData($enrichedQuery, $user);
+            $context = KnowledgeService::getRelevantData($message, $user);
         } catch (\Exception $e) {
             \Log::warning('SaiQu context build failed', ['error' => $e->getMessage()]);
         }
@@ -63,6 +61,12 @@ class SaiQuController extends Controller
             $history = SaiquConversation::getHistory($user->id);
         } catch (\Exception $e) {
             // Table may not exist yet
+        }
+
+        // Enrich context with conversation history for pronoun resolution
+        $historyContext = $this->buildHistoryContext($history);
+        if ($historyContext) {
+            $context .= "\n\n" . $historyContext;
         }
 
         // --- Call Gemini (this always returns a string, never throws) ---
@@ -110,11 +114,44 @@ class SaiQuController extends Controller
     public function suggestions()
     {
         $user = Auth::user();
+
+        // Clear any stale user-specific cache on first suggestion load
+        // This ensures fresh data after code updates
         $suggestions = KnowledgeService::getSuggestedQuestions($user);
 
         return response()->json([
             'success' => true,
             'suggestions' => $suggestions,
+        ]);
+    }
+
+    /**
+     * Debug endpoint: test context building (only for unlimited users).
+     */
+    public function debugContext(Request $request)
+    {
+        $user = Auth::user();
+        $unlimitedEmails = config('saiqu.rate_limit.unlimited_emails', []);
+
+        if (!in_array($user->email, $unlimitedEmails)) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $message = $request->input('message', 'berapa poin saya');
+
+        try {
+            $context = KnowledgeService::getRelevantData($message, $user);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+        }
+
+        return response()->json([
+            'message' => $message,
+            'context_length' => mb_strlen($context),
+            'context' => $context,
         ]);
     }
 
@@ -168,32 +205,26 @@ class SaiQuController extends Controller
     }
 
     /**
-     * Enrich the current query with recent conversation history
-     * so the context builder can resolve references like "dia", "orang itu", etc.
-     * This helps topic matching find the right data.
+     * Build conversation history context string.
+     * This is appended to the RAG context so Gemini can resolve
+     * pronouns like "dia", "nya", "orang itu" from previous messages.
      */
-    protected function enrichQueryWithHistory(string $message, array $history): string
+    protected function buildHistoryContext(array $history): string
     {
         if (empty($history)) {
-            return $message;
+            return '';
         }
 
-        // Check if message contains pronouns/references that need context
-        $hasReference = preg_match('/\b(dia|nya|mereka|orang itu|yang tadi|tersebut|itu|ini)\b/i', $message);
-        $isShortQuery = mb_strlen(trim($message)) < 40;
-
-        if (!$hasReference && !$isShortQuery) {
-            return $message;
-        }
-
-        // Take last 4 messages (2 pairs) for context enrichment
+        // Take last 4 messages (2 pairs)
         $recentHistory = array_slice($history, -4);
-        $historyText = '';
+        $lines = ["RIWAYAT PERCAKAPAN TERAKHIR:"];
         foreach ($recentHistory as $msg) {
             $role = $msg['role'] === 'user' ? 'User' : 'SaiQu';
-            $historyText .= "{$role}: {$msg['text']}\n";
+            // Trim each message to avoid bloating context
+            $text = mb_substr($msg['text'], 0, 300);
+            $lines[] = "{$role}: {$text}";
         }
 
-        return $message . "\n\n[KONTEKS PERCAKAPAN SEBELUMNYA:\n{$historyText}]";
+        return implode("\n", $lines);
     }
 }

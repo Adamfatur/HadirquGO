@@ -572,38 +572,6 @@ class KnowledgeService
             }
         }
 
-        // If user asks about specific person
-        $nameSearch = self::extractPersonName($query);
-        if ($nameSearch) {
-            $cacheKey = "saiqu:search:v2:" . md5($nameSearch);
-            $foundData = Cache::remember($cacheKey, self::userTtl(), function () use ($nameSearch) {
-                return User::where('name', 'like', "%{$nameSearch}%")
-                    ->limit(3)
-                    ->get()
-                    ->map(function ($found) {
-                        $summary = $found->pointSummary;
-                        $rank = UserLeaderboard::where('category', 'top_points')
-                            ->where('user_id', $found->id)->first();
-                        $foundPts = $summary ? $summary->total_points : 0;
-                        $level = Level::where('minimum_points', '<=', $foundPts)
-                            ->where('maximum_points', '>', $foundPts)
-                            ->first();
-                        return [
-                            'name' => $found->display_name,
-                            'rank' => $rank ? "#{$rank->current_rank}" : 'Tidak di leaderboard',
-                            'points' => $summary ? $summary->total_points : 0,
-                            'level' => $level ? $level->name : 'Unknown',
-                            'title' => $rank && $rank->title ? $rank->title : null,
-                        ];
-                    })->toArray();
-            });
-
-            foreach ($foundData as $f) {
-                $titleStr = $f['title'] ? " ({$f['title']})" : '';
-                $lines[] = "INFO USER '{$f['name']}': Ranking={$f['rank']}, Poin={$f['points']}, Level={$f['level']}{$titleStr}";
-            }
-        }
-
         // User's own rank with neighbors
         if ($user) {
             $myRankData = Cache::remember("saiqu:my_rank:{$user->id}", self::userTtl(), function () use ($user) {

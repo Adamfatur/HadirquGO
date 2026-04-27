@@ -74,8 +74,8 @@ class GeminiService
 
         $finalMessage = $userMessage;
         if (!empty($context)) {
-            // Trim context to max ~2000 chars to keep payload light
-            $trimmedContext = mb_substr($context, 0, 2000);
+            // Trim context to max ~4000 chars to balance richness vs payload size
+            $trimmedContext = mb_substr($context, 0, 4000);
             $finalMessage = "KONTEKS DATA SISTEM:\n{$trimmedContext}\n\nPERTANYAAN USER:\n{$userMessage}";
         }
 

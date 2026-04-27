@@ -10,22 +10,25 @@ class QuestionValidator
     protected static array $systemKeywords = [
         // Fitur sistem
         'absensi', 'attendance', 'kehadiran', 'hadir', 'checkin', 'checkout',
+        'check-in', 'check-out', 'presensi', 'datang', 'pulang',
         'qr', 'qrcode', 'scan',
         'tim', 'team', 'anggota', 'member', 'kelompok',
-        'poin', 'point', 'skor', 'score',
-        'level', 'rank', 'ranking', 'peringkat', 'leaderboard',
-        'achievement', 'pencapaian', 'badge', 'medali',
-        'quiz', 'kuis', 'soal', 'ujian', 'superquiz',
-        'reward', 'hadiah', 'redeem', 'tukar', 'produk', 'product',
-        'challenge', 'tantangan',
-        'statistik', 'statistic', 'laporan', 'report',
+        'poin', 'point', 'skor', 'score', 'tesla',
+        'level', 'rank', 'ranking', 'peringkat', 'leaderboard', 'posisi',
+        'achievement', 'pencapaian', 'badge', 'medali', 'lencana',
+        'quiz', 'kuis', 'soal', 'ujian', 'superquiz', 'super quiz',
+        'reward', 'hadiah', 'redeem', 'tukar', 'produk', 'product', 'spin', 'gacha',
+        'challenge', 'tantangan', 'lawan', 'duel',
+        'statistik', 'statistic', 'laporan', 'report', 'rekap',
         'dashboard', 'beranda',
-        'profil', 'profile', 'akun', 'account',
-        'bisnis', 'business', 'lokasi', 'location',
+        'profil', 'profile', 'akun', 'account', 'biodata',
+        'bisnis', 'business', 'lokasi', 'location', 'tempat',
         'kalender', 'calendar', 'jadwal', 'schedule',
         'notifikasi', 'notification',
         'testimoni', 'testimony', 'feedback',
         'viewboard', 'banner',
+        'streak', 'harian', 'daily', 'berturut', 'konsisten',
+        'journey', 'perjalanan',
         // Sistem umum
         'sistem', 'system', 'fitur', 'feature', 'aplikasi', 'app',
         'hadirkugo', 'hadirku', 'saiqu',
@@ -41,6 +44,10 @@ class QuestionValidator
         'progress', 'kemajuan', 'aktivitas', 'activity',
         'riwayat', 'history', 'catatan', 'log',
         'bantuan', 'bantu', 'help', 'tolong',
+        // Comparison / follow-up references
+        'jarak', 'selisih', 'banding', 'dibanding', 'rival',
+        'dia', 'nya', 'mereka', 'siapa', 'top',
+        'unggul', 'tertinggal', 'kalah', 'menang',
     ];
 
     /**
@@ -77,6 +84,12 @@ class QuestionValidator
 
         // Short greetings are allowed (halo, hi, etc.)
         if (mb_strlen($lower) <= 30 && preg_match('/^(halo|hai|hi|hello|hey|selamat|terima kasih|thanks|ok|oke)/i', $lower)) {
+            return true;
+        }
+
+        // Short follow-up questions are likely related to previous conversation
+        // e.g. "berapa?", "siapa?", "dimana?", "lalu?", "terus?"
+        if (mb_strlen($lower) <= 50 && preg_match('/\?$/', $lower)) {
             return true;
         }
 

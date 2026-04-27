@@ -48,9 +48,11 @@ class SaiQuController extends Controller
         }
 
         // --- Build Context (RAG) ---
+        // Include recent history in query for better topic matching
         $context = '';
         try {
-            $context = KnowledgeService::getRelevantData($message, $user);
+            $enrichedQuery = $this->enrichQueryWithHistory($message, $history);
+            $context = KnowledgeService::getRelevantData($enrichedQuery, $user);
         } catch (\Exception $e) {
             \Log::warning('SaiQu context build failed', ['error' => $e->getMessage()]);
         }
@@ -163,5 +165,35 @@ class SaiQuController extends Controller
                 ->whereNotIn('id', $idsToKeep)
                 ->delete();
         }
+    }
+
+    /**
+     * Enrich the current query with recent conversation history
+     * so the context builder can resolve references like "dia", "orang itu", etc.
+     * This helps topic matching find the right data.
+     */
+    protected function enrichQueryWithHistory(string $message, array $history): string
+    {
+        if (empty($history)) {
+            return $message;
+        }
+
+        // Check if message contains pronouns/references that need context
+        $hasReference = preg_match('/\b(dia|nya|mereka|orang itu|yang tadi|tersebut|itu|ini)\b/i', $message);
+        $isShortQuery = mb_strlen(trim($message)) < 40;
+
+        if (!$hasReference && !$isShortQuery) {
+            return $message;
+        }
+
+        // Take last 4 messages (2 pairs) for context enrichment
+        $recentHistory = array_slice($history, -4);
+        $historyText = '';
+        foreach ($recentHistory as $msg) {
+            $role = $msg['role'] === 'user' ? 'User' : 'SaiQu';
+            $historyText .= "{$role}: {$msg['text']}\n";
+        }
+
+        return $message . "\n\n[KONTEKS PERCAKAPAN SEBELUMNYA:\n{$historyText}]";
     }
 }

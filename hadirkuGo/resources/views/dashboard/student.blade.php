@@ -39,7 +39,7 @@
     <div class="text-center py-3" style="background-color: #1e3a8a; color: white; border-radius: 0 0 15px 15px;">
         <p class="mb-0 small">
             <a href="#" data-bs-toggle="modal" data-bs-target="#changelogModal" class="text-white text-decoration-none">
-                HadirkuGO Version 1.5 &copy; {{ date('Y') }}. All rights reserved.
+                HadirkuGO Version 2.0 &copy; {{ date('Y') }}. All rights reserved.
             </a>
         </p>
     </div>
